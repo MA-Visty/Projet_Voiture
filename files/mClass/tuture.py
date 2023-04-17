@@ -1,4 +1,5 @@
 import RPi.GPIO as GPIO
+import time
 from motorDC import DC
 from servoMotor import PAPA
 from sensorInfrared import Infrared
@@ -30,3 +31,19 @@ class Car:
 			#self.sC = Color()
 		finally:
 			GPIO.cleanup()
+	
+	def start(self):
+		try:
+			self.sL.start()
+			self.sF.start()
+			self.sR.start()
+
+			while True:
+				print("Distance:", self.sL.getDistance(), "cm")
+				print("Distance:", self.sF.getDistance(), "cm")
+				print("Distance:", self.sR.getDistance(), "cm")
+				time.sleep(0.2)
+		finally:
+			self.sL.stop()
+			self.sF.stop()
+			self.sR.stop()
