@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 from threading import Thread
 import time
 
-class Sensor:
+class UltraSonic:
 	def __init__(self, _pinTrig, _pinEcho, _intervalTime=1):
 		self.pinTrig = _pinTrig
 		self.pinEcho = _pinEcho
@@ -10,18 +10,14 @@ class Sensor:
 		self.intervalTime = _intervalTime
 		self.mThread = Thread(target=self.getDistance, args=[])
 
-class UltraSonic(Sensor):
-	def __init__(self):
-		super().__init__()
-
 	def getDistance(self):
 		try:
-			GPIO.setmode(GPIO.BOARD)
+			GPIO.setmode(GPIO.BCM)
 			GPIO.setup(self.pinTrig, GPIO.OUT)
 			GPIO.setup(self.pinEcho, GPIO.IN)
 			GPIO.output(self.pinTrig, GPIO.LOW)
 
-			while self.run:
+			while True:
 				GPIO.output(self.pinTrig, GPIO.HIGH)
 				time.sleep(0.00001)
 				GPIO.output(self.pinTrig, GPIO.LOW)
@@ -40,10 +36,18 @@ class UltraSonic(Sensor):
 		finally:
 			GPIO.cleanup()
 
-class Color(Sensor):
+class Color:
 	def __init__(self):
-		super().__init__()
+		pass
 
-class Infrared(Sensor):
-	def __init__(self):
-		super().__init__()
+class Infrared:
+	def __init__(self, _pin):
+		self.pin = _pin
+
+	def getInfo(self):
+		# Set up the GPIO pins
+		GPIO.setmode(GPIO.BCM)
+		GPIO.setup(self.pin, GPIO.IN)
+
+		time.sleep(0.1)
+		print(GPIO.input(self.pin))

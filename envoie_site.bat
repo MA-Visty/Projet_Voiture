@@ -1,1 +1,1 @@
-scp -r main.py Motors.py Sensors.py piG6@10.3.141.1:Desktop/
+scp -r files/ test/ piG6@10.3.141.1:
