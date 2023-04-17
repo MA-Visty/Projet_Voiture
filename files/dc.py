@@ -1,12 +1,13 @@
 import RPi.GPIO as GPIO
 
 class DC:
-	def __init__(self, _in1, _in2, _in3, _in4,_en):
+	def __init__(self, _in1, _in2, _in3, _in4,_ena,_enb):
 		self.in1=_in1
 		self.in2=_in2
 		self.in3=_in3
 		self.in4=_in4
-		self.en=_en
+		self.ena=_ena
+		self.enb=_enb
 		GPIO.setup(self.in1,GPIO.OUT)
 		GPIO.setup(self.in2,GPIO.OUT)
 		GPIO.setup(self.in3,GPIO.OUT)
@@ -16,8 +17,10 @@ class DC:
 		GPIO.output(self.in2,GPIO.LOW)
 		GPIO.output(self.in3,GPIO.LOW)
 		GPIO.output(self.in4,GPIO.LOW)
-		self.p=GPIO.PWM(self.en,1000)
-		self.p.start(25)
+		self.speeda=GPIO.PWM(self.ena,1000)
+		self.speeda.start(25)
+		self.speedb=GPIO.PWM(self.enb,1000)
+		self.speedb.start(25)
 	def forward(self):
 		GPIO.output(self.in1,GPIO.HIGH)
 		GPIO.output(self.in2,GPIO.LOW)
@@ -34,8 +37,11 @@ class DC:
 		GPIO.output(self.in3,GPIO.LOW)
 		GPIO.output(self.in4,GPIO.LOW)
 	def low(self):
-		self.p.ChangeDutyCycle(25)
+		self.speeda.ChangeDutyCycle(25)
+		self.speedb.ChangeDutyCycle(25)
 	def medium(self):
-		self.p.ChangeDutyCycle(50)
+		self.speeda.ChangeDutyCycle(50)
+		self.speedb.ChangeDutyCycle(50)
 	def high(self):
-		self.p.ChangeDutyCycle(75)
+		self.speeda.ChangeDutyCycle(75)
+		self.speedb.ChangeDutyCycle(75)
