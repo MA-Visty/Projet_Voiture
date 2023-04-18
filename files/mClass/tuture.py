@@ -50,6 +50,8 @@ class Car:
 		"""
 	
 	def start(self):
+		speed = 60
+		mtime = 10
 		try:
 			self.direction.position = self.direction.maxPulse
 			self.direction.update()
@@ -57,11 +59,11 @@ class Car:
 			time.sleep(0.5)
 
 			self.mL.forward()
-			self.mL.setSpeed(100)
+			self.mL.setSpeed(speed)
 			self.mR.forward()
-			self.mR.setSpeed(100)
+			self.mR.setSpeed(speed)
 			
-			time.sleep(5)
+			time.sleep(mtime)
 
 			self.mL.setSpeed(0)
 			self.mR.setSpeed(0)
@@ -73,12 +75,17 @@ class Car:
 
 			time.sleep(0.5)
 
-			self.mL.forward()
-			self.mL.setSpeed(100)
-			self.mR.forward()
-			self.mR.setSpeed(100)
+			self.direction.position = self.direction.minPulse
+			self.direction.update()
 
-			time.sleep(5)
+			time.sleep(0.5)
+
+			self.mL.forward()
+			self.mL.setSpeed(speed)
+			self.mR.forward()
+			self.mR.setSpeed(speed)
+
+			time.sleep(mtime)
 
 			self.mL.setSpeed(0)
 			self.mR.setSpeed(0)

@@ -3,7 +3,7 @@ import time
 
 class PAPA:
 	def __init__(self):
-		self.minPulse = 50
+		self.minPulse = 150
 		self.midPulse = 250
 		self.maxPulse = 450
 		self.position = 0
