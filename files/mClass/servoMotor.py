@@ -1,29 +1,34 @@
-from __future__ import division
+from mClass.PCA9685 import PWM
 import time
-import Adafruit_PCA9685 
 
 class PAPA:
 	def __init__(self):
-		pwm = Adafruit_PCA9685.PCA9685()
-		servo_min = 150
-		servo_max = 600
+		self.minPulse = 50
+		self.midPulse = 250
+		self.maxPulse = 450
+		self.position = 0
+		self.frequency = 50
+		self.pwm = PWM()
+		self.pwm.frequency = self.frequency
 
-		def set_servo_pulse(channel ,pulse):
-			pulse_length = 1000000
-			pulse_length //=60
-			print('{0} us per period' .format(pulse_length))
-			pulse_length //=4096
-			print('{0} us per bit' .format(pulse_length))
-			pulse *=1000
-			pulse //= pulse_length
-			pwm.set_pwm(channel,0,pulse)
+		self.reset()
 
-		pwm.set_pwm_freq(60)
+	def turn(self, left=False, right=False):
+		if(left):
+			self.position += 15
+		if(right):
+			self.position -= 15
+		
+		if(self.position < self.minPulse):
+			self.position = self.minPulse
+		if(self.position > self.maxPulse):
+			self.position = self.maxPulse
 
-		print('Moving servo on channel 0')
+		self.update()
 
-		while True :
-			pwm.set_pwm(0,0,servo_min)
-			time.sleep(1)
-			pwm.set_pwm(0,0,servo_max)
-			time.sleep(1)
+	def update(self):
+		self.pwm.write(0, 0, self.position)
+
+	def reset(self):
+		self.position = self.midPulse
+		self.update()
