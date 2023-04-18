@@ -4,7 +4,7 @@ import time
 
 class UltraSonic(Thread):
 	def __init__(self, _pinTrig, _pinEcho, _intervalTime=1):
-		super().__init__()
+		super().__init__(target=self.run)
 		self.pinTrig = _pinTrig
 		self.pinEcho = _pinEcho
 		self.intervalTime = _intervalTime
@@ -28,8 +28,6 @@ class UltraSonic(Thread):
 		pulse_duration = pulse_end_time - pulse_start_time
 		self.distance = round(pulse_duration * 17150, 2)
 
-		time.sleep(self.intervalTime)
-
 	def run(self):
 		GPIO.setup(self.pinTrig, GPIO.OUT)
 		GPIO.setup(self.pinEcho, GPIO.IN)
@@ -37,6 +35,7 @@ class UltraSonic(Thread):
 
 		while not self.isKilled:
 			self.update()
+			time.sleep(self.intervalTime)
 
 		print(self, " is killed")
 	
