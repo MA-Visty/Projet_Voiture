@@ -1,6 +1,7 @@
 import RPi.GPIO as GPIO
 import time
 import os
+from mClass.motorDC import DC
 from mClass.servoMotor import PAPA
 from mClass.sensorInfrared import Infrared
 from mClass.sensorUltraSonic import UltraSonic
@@ -31,6 +32,10 @@ class Car:
 				Infrared :
 				20
 			"""
+			# Motor Left
+			self.mL = DC(10, 24, 4)  # 19->10 ; 18->24 ; 
+			# Motor Right
+			self.mR = DC(17, 23, 5)  # 17->17 ; 16->23 ;
 			# Servomotor
 			self.direction = PAPA()
 
