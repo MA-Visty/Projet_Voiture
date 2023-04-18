@@ -7,10 +7,10 @@ import time    # Import necessary modules
 # Raspberry Pi pin11, 12, 13 and 15 to realize the clockwise/counterclockwise
 # rotation and forward and backward movements
 # ===========================================================================
-Motor0_A = 11  # pin11
-Motor0_B = 12  # pin12
-Motor1_A = 13  # pin13
-Motor1_B = 15  # pin15
+Motor0_A = 24  # pin11
+Motor0_B = 23  # pin12
+Motor1_A = 27  # pin13
+Motor1_B = 22  # pin15
 
 # ===========================================================================
 # Set channel 4 and 5 of the DC motor driver IC to generate PWM, thus 

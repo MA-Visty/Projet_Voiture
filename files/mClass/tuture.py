@@ -12,13 +12,12 @@ class Car:
 			GPIO.setmode(GPIO.BCM) # Board->BCM
 
 			# Motor Left
-			self.mL = DC(10, 24, 4)  # 19->10 ; 18->24 ; 
+			self.mL = DC(24,23,4)  # 19->10 ; 18->24 ; 
 			# Motor Right
-			self.mR = DC(17, 23, 5)  # 17->17 ; 16->23 ;
+			self.mR = DC(27,22,5)  # 17->17 ; 16->23 ;
 			# Servo Motor
 			#self.direction = PAPA()
-
-			# Sensor "UltraSonic" Left
+			"""# Sensor "UltraSonic" Left
 			self.sL = UltraSonic(11, 9) # 23->11 ; 21->9
 			# Sensor "UltraSonic" Front
 			self.sF = UltraSonic(6, 5) # 31->6 ; 29->5
@@ -29,12 +28,13 @@ class Car:
 			self.sI = Infrared(20)
 
 			# Sensor "RGB"  ===>  NOT TODAY
-			#self.sC = Color()
+			#self.sC = Color()"""
 		finally:
 			GPIO.cleanup()
 	
 	def start(self):
-		try:
+		pass
+		"""try:
 			self.mL.forward()
 			self.mR.forward()
 			self.sL.start()
@@ -55,4 +55,4 @@ class Car:
 			self.sR.stop()
 			self.mL.stop()
 			self.mR.stop()
-			self.sI.stop()
+			self.sI.stop()"""

@@ -1,32 +1,54 @@
-from __future__ import division
 import RPi.GPIO as GPIO
-import Adafruit_PCA9685
+import mClass.PCA9685 as p
+import time    # Import necessary modules
 
 class DC:
-	def __init__(self, _in1, _in2,_en):
-		self.in1=_in1
-		self.in2=_in2
-		self.pwm=Adafruit_PCA9685.PCA9685()
-		self.pwm.set_pwm_freq(60)
+	def __init__(self, _pina, _pinb, _en):
+		self.pina=_pina
+		self.pinb=_pinb
 		self.en=_en
-		self.pwm.set_pwm(_en,4096,0)
-		GPIO.setmode(GPIO.BCM)
-		GPIO.setup(self.in1,GPIO.OUT)
-		GPIO.setup(self.in2,GPIO.OUT)
-		GPIO.output(self.in1,GPIO.LOW)
-		GPIO.output(self.in2,GPIO.LOW)
-	def forward(self):
-		GPIO.output(self.in1,GPIO.HIGH)
-		GPIO.output(self.in2,GPIO.LOW)
+		self.pins=[_pina,_pinb]
+		busnum=None
+		global forward, backward
+		global pwm
+		if busnum == None:
+			pwm = p.PWM()                  # Initialize the servo controller.
+		else:
+			pwm = p.PWM(bus_number=busnum) # Initialize the servo controller.
+		pwm.frequency = 60
+		forward = 'True'
+		GPIO.setwarnings(False)
+		GPIO.setmode(GPIO.BCM)        # Number GPIOs by its physical location
+		try:
+			for line in open("config"):
+				if line[0:8] == "forward0":
+					forward = line[11:-1]
+		except:
+			pass
+		if forward == 'True':
+			backward = 'False'
+		elif forward == 'False':
+			backward = 'True'
+		for pin in self.pins:
+			GPIO.setup(pin, GPIO.OUT)   # Set all pins' mode as output
+	def motor(self,x):
+		if x == 'True':
+			GPIO.output(self.pina, GPIO.LOW)
+			GPIO.output(self.pinb, GPIO.HIGH)
+		elif x == 'False':
+			GPIO.output(self.pina, GPIO.HIGH)
+			GPIO.output(self.pinb, GPIO.LOW)
+		else:
+			print ('Config Error')
+	def setSpeed(self,speed):
+		speed *= 40
+		print ('speed is: ', speed)
+		pwm.write(self.en, 0, speed)
 	def backward(self):
-		GPIO.output(self.in1,GPIO.LOW)
-		GPIO.output(self.in2,GPIO.HIGH)
+		self.motor(forward)
+	def forward(self):
+		self.motor(backward)
 	def stop(self):
-		GPIO.output(self.in1,GPIO.LOW)
-		GPIO.output(self.in2,GPIO.LOW)
-	def low(self):
-		self.pwm.set_pwm(self.en,1300,0)
-	def medium(self):
-		self.pwm.set_pwm(self.en,2700,0)
-	def high(self):
-		self.pwm.set_pwm(self.en,4096,0)
+		for pin in self.pins:
+			GPIO.output(pin, GPIO.LOW)
+	
