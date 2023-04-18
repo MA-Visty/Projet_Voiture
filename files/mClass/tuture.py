@@ -37,13 +37,12 @@ class Car:
 			"""
 			# Sensor "UltraSonic" Left
 			self.sL = UltraSonic(23, 21)
-			# Sensor "UltraSonic" Front
-			self.sF = UltraSonic(31, 29)
-			# Sensor "UltraSonic" Right
-			self.sR = UltraSonic(37, 35)
-
-			# Sensor "Infrared"
-			self.sI = Infrared(20)
+			# Motor Left
+			self.mL = DC(24,23,4)  # 19->10 ; 18->24 ; 
+			# Motor Right
+			self.mR = DC(27,22,5)  # 17->17 ; 16->23 ;
+			# Servo Motor
+			#self.direction = PAPA()
 			"""
 		finally:
 			GPIO.cleanup()
@@ -63,27 +62,3 @@ class Car:
 					mbool = False
 		finally:
 			self.direction.reset()
-
-		"""
-		try:
-			self.sL.start()
-			self.sF.start()
-			self.sR.start()
-			
-			self.sI.start()
-
-			while not self.sI.getValue():
-				print("Distance left:", self.sL.getDistance(), "cm")
-				print("Distance front:", self.sF.getDistance(), "cm")
-				print("Distance right:", self.sR.getDistance(), "cm")
-				time.sleep(0.2)
-				#os.system("clear")
-		except Exception as e:
-			print(e)
-		finally:
-			self.sL.stop()
-			self.sF.stop()
-			self.sR.stop()
-
-			self.sI.stop()
-		"""
