@@ -35,6 +35,8 @@ class Car:
 	
 	def start(self):
 		try:
+			self.mL.forward()
+			self.mR.forward()
 			self.sL.start()
 			self.sF.start()
 			self.sR.start()
@@ -51,5 +53,6 @@ class Car:
 			self.sL.stop()
 			self.sF.stop()
 			self.sR.stop()
-
+			self.mL.stop()
+			self.mR.stop()
 			self.sI.stop()

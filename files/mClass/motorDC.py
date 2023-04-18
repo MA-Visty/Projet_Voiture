@@ -10,6 +10,7 @@ class DC:
 		self.pwm.set_pwm_freq(60)
 		self.en=_en
 		self.pwm.set_pwm(_en,4096,0)
+		GPIO.setmode(GPIO.BCM)
 		GPIO.setup(self.in1,GPIO.OUT)
 		GPIO.setup(self.in2,GPIO.OUT)
 		GPIO.output(self.in1,GPIO.LOW)
