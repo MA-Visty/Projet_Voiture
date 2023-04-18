@@ -12,9 +12,9 @@ class Car:
 			GPIO.setmode(GPIO.BCM) # Board->BCM
 
 			# Motor Left
-			#self.mL = DC(19, 18)  # 19-> ; 18-> ; 
+			self.mL = DC(10, 24, 4)  # 19->10 ; 18->24 ; 
 			# Motor Right
-			#self.mR = DC(17, 16)  # 17-> ; 16-> ;
+			self.mR = DC(17, 23, 5)  # 17->17 ; 16->23 ;
 			# Servo Motor
 			#self.direction = PAPA()
 
