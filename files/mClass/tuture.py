@@ -38,16 +38,15 @@ class Car:
 		# Servomotor
 		self.direction = PAPA()
 
-		"""
 		# Sensor "UltraSonic" Left
 		self.sL = UltraSonic(23, 21)
-		# Motor Left
-		self.mL = DC(24,23,4)  # 19->10 ; 18->24 ; 
-		# Motor Right
-		self.mR = DC(27,22,5)  # 17->17 ; 16->23 ;
-		# Servo Motor
-		#self.direction = PAPA()
-		"""
+		# Sensor "UltraSonic" Front
+		self.sF = UltraSonic(31, 29)
+		# Sensor "UltraSonic" Right
+		self.sR = UltraSonic(37, 35)
+
+		# Sensor "INfrared"
+		self.sI = Infrared(20)
 	
 	def start(self):
 		speed = 60
@@ -91,8 +90,29 @@ class Car:
 			self.mR.setSpeed(0)
 
 			time.sleep(0.5)
+
+			"""
+			self.sL.start()
+			self.sF.start()
+			self.sR.start()
+
+			while not self.sI.getValue():
+				print("Distance Left:", self.sL.getDistance(), " cm")
+				print("Distance Left:", self.sF.getDistance(), " cm")
+				print("Distance Left:", self.sR.getDistance(), " cm")
+				
+				time.sleep(0.75)
+
+			self.sI.start()
+			"""
 		finally:
 			self.direction.reset()
 
 			self.mL.setSpeed(0)
 			self.mR.setSpeed(0)
+
+			self.sL.stop()
+			self.sF.stop()
+			self.sR.stop()
+
+			self.sI.stop()
