@@ -4,7 +4,7 @@ import time
 
 class UltraSonic(Thread):
 	def __init__(self, _pinTrig, _pinEcho, _intervalTime=1):
-		super().__init__(target=self.run)
+		super().__init__()
 		self.pinTrig = _pinTrig
 		self.pinEcho = _pinEcho
 		self.intervalTime = _intervalTime

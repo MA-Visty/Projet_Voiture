@@ -8,8 +8,8 @@ from mClass.sensorUltraSonic import UltraSonic
 
 class Car:
 	def __init__(self):
-		GPIO.setwarnings(False)
 		GPIO.setmode(GPIO.BCM)
+		GPIO.setwarnings(False)
 		"""
 			PIN motor 1 :
 			17
@@ -39,11 +39,11 @@ class Car:
 		self.direction = PAPA()
 
 		# Sensor "UltraSonic" Left
-		self.sL = UltraSonic(23, 21)
+		self.sL = UltraSonic(11, 9)
 		# Sensor "UltraSonic" Front
-		self.sF = UltraSonic(31, 29)
+		self.sF = UltraSonic(6, 5)
 		# Sensor "UltraSonic" Right
-		self.sR = UltraSonic(37, 35)
+		self.sR = UltraSonic(26, 19)
 
 		# Sensor "INfrared"
 		self.sI = Infrared(20)
@@ -52,6 +52,7 @@ class Car:
 		speed = 60
 		mtime = 10
 		try:
+			"""
 			self.direction.position = self.direction.maxPulse
 			self.direction.update()
 			
@@ -96,15 +97,16 @@ class Car:
 			self.sF.start()
 			self.sR.start()
 
+			self.sI.start()
+
 			while not self.sI.getValue():
-				print("Distance Left:", self.sL.getDistance(), " cm")
-				print("Distance Left:", self.sF.getDistance(), " cm")
-				print("Distance Left:", self.sR.getDistance(), " cm")
-				
+				print("Distance left:", self.sL.getDistance(), "cm")
+				print("Distance front:", self.sF.getDistance(), "cm")
+				print("Distance right:", self.sR.getDistance(), "cm")
 				time.sleep(0.75)
+				os.system("clear")
 
 			self.sI.start()
-			"""
 		finally:
 			self.direction.reset()
 
