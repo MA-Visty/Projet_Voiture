@@ -1,20 +1,22 @@
 import RPi.GPIO as GPIO
-from motorDC import DC
-from servoMotor import PAPA
-from sensorInfrared import Infrared
-from sensorUltraSonic import UltraSonic
+import time
+import os
+from mClass.motorDC import DC
+from mClass.servoMotor import PAPA
+from mClass.sensorInfrared import Infrared
+from mClass.sensorUltraSonic import UltraSonic
 
 class Car:
 	def __init__(self):
 		try:
-			GPIO.setmode(GPIO.BCM)
+			GPIO.setmode(GPIO.BCM) # Board->BCM
 
 			# Motor Left
-			self.mL = DC(19, 18)  # 19-> ; 18-> ; 
+			self.mL = DC(10, 24, 4)  # 19->10 ; 18->24 ; 
 			# Motor Right
-			self.mR = DC(17, 16)  # 17-> ; 16-> ;
+			self.mR = DC(17, 23, 5)  # 17->17 ; 16->23 ;
 			# Servo Motor
-			self.direction = PAPA()
+			#self.direction = PAPA()
 
 			# Sensor "UltraSonic" Left
 			self.sL = UltraSonic(11, 9) # 23->11 ; 21->9
@@ -30,3 +32,24 @@ class Car:
 			#self.sC = Color()
 		finally:
 			GPIO.cleanup()
+	
+	def start(self):
+		try:
+			self.sL.start()
+			self.sF.start()
+			self.sR.start()
+
+			self.sI.start()
+
+			while not self.sI.getValue():
+				print("Distance left:", self.sL.getDistance(), "cm")
+				print("Distance front:", self.sF.getDistance(), "cm")
+				print("Distance right:", self.sR.getDistance(), "cm")
+				time.sleep(0.2)
+				os.system("clear")
+		finally:
+			self.sL.stop()
+			self.sF.stop()
+			self.sR.stop()
+
+			self.sI.stop()
