@@ -8,9 +8,8 @@ class DC:
 		self.pinB=_pinB
 		self.en=_en
 		self.pins=[_pinA,_pinB]
+		self.speed = 0
 		busnum=None
-		
-		
 		global pwm
 		if busnum == None:
 			pwm = p.PWM()                  # Initialize the servo controller.
@@ -32,6 +31,7 @@ class DC:
 			self.backwardB = 'True'
 		for pin in self.pins:
 			GPIO.setup(pin, GPIO.OUT)   # Set all pins' mode as output
+
 	def motor(self,x):
 		if x == 'True':
 			GPIO.output(self.pinA, GPIO.LOW)
@@ -41,14 +41,21 @@ class DC:
 			GPIO.output(self.pinB, GPIO.LOW)
 		else:
 			print ('Config Error')
+
 	def setSpeed(self,speed):
 		speed *= 40
-		print ('speed is: ', speed)
-		pwm.write(self.en, 0, speed)
+		self.speed = speed
+		pwm.write(self.en, 0, self.speed)
+
+	def getSpeed(self):
+		return self.speed
+	
 	def backward(self):
 		self.motor(self.forwardB)
+
 	def forward(self):
 		self.motor(self.backwardB)
+
 	def stop(self):
 		for pin in self.pins:
 			GPIO.output(pin, GPIO.LOW)
