@@ -56,6 +56,25 @@ def direction(car):
 	car.direction.position = car.direction.midPulse
 	car.direction.update()
 	time.sleep(0.5)
+def chackWall(car):
+	srDistance=car.sR.getDistance()
+	slDistance=car.sL.getDistance()
+	if(slDistance<srDistance):
+		
+		if(30< slDistance < 32):
+			tuture.turn(250)
+		elif(slDistance < 30):
+			print(slDistance)
+			tuture.turn(275)
+		elif(slDistance > 32):
+			tuture.turn(225)
+	if(srDistance<slDistance):
+		if(30< srDistance < 32):
+			tuture.turn(250)
+		elif(srDistance < 30):
+			tuture.turn(225)
+		elif(srDistance > 32):
+			tuture.turn(275)
 
 def controleDistance(car):
 	first = time.time()
@@ -95,33 +114,15 @@ if __name__ == "__main__":
 	try:
 		tuture = Car()
 		tuture.start()
-
-		if(int(input("Presentation vitesse (1 => pour oui): ")) == 1):
-			showSpeed(tuture)
-		if(int(input("Presentation direction (1 => pour oui): ")) == 1):
-			direction(tuture)
-			if(int(input("Test direction (1 => pour oui): ")) == 1):
-				while True:
-					tuture.direction.position = int(input("Valeur : "))
-					tuture.direction.update()
-					time.sleep(0.5)
-		if(int(input("Presentation cercle (1 => pour oui): ")) == 1):
-			circule(tuture)
-		if(int(input("ControleDistance (1 => pour oui): ")) == 1):
-			controleDistance(tuture)
-		
+		tuture.move(30)
 
 		while True:
 			os.system("clear")
-
-			print(tuture.sL.getDistance(), "cm | ", tuture.sF.getDistance(), "cm | ", tuture.sR.getDistance(), "cm")
-			print("Valeur Infrarouge:", tuture.sI.getValue())
-			print("Vitesse moteur Gauche:", tuture.mL.getSpeed())
-			print("Vitesse moteur Droit:", tuture.mR.getSpeed())
-			print("Position servomoteur:", tuture.direction.getPosition())
-
+			if(tuture.sF.getDistance()<40):
+				tuture.stop()
+				break
+			chackWall(tuture)
 			time.sleep(0.1)
-	
 	except Exception as e:
 		print(e)
 	

@@ -45,8 +45,9 @@ class Car:
 			self.mR.setSpeed(0)
 
 	def turn(self, deg):
-		if(150 <= deg <= 450):
+		if(self.direction.minPulse <= deg <= self.direction.maxPulse):
 			self.direction.setPosition(deg)
+			self.direction.update()
 	
 	def start(self):
 		self.sL.start()
