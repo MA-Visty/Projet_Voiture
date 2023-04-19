@@ -109,7 +109,24 @@ def controleDistance(car):
 					car.direction.update()
 				else:
 					pass
-
+def chackWall(car):
+	srDistance=car.sR.getDistance()
+	slDistance=car.sL.getDistance()
+	if(slDistance<srDistance):
+		dist=slDistance*1.5
+		if(15< slDistance < 18):
+			tuture.turn(250)
+		elif(slDistance < 15):
+			tuture.turn(250+dist)
+		elif(slDistance > 18):
+			tuture.turn(250-dist)
+	if(srDistance<slDistance):
+		if(15< srDistance < 18):
+			tuture.turn(250)
+		elif(srDistance < 15):
+			tuture.turn(250+dist)
+		elif(srDistance > 18):
+			tuture.turn(250-dist)
 if __name__ == "__main__":
 	try:
 		tuture = Car()
