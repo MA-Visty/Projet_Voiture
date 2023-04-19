@@ -97,9 +97,14 @@ if __name__ == "__main__":
 		tuture.start()
 		compteur=0
 		while 1:
-			print(compteur)
-			if(tuture.sI.getValue==1):
+			if(tuture.sI.getValue()==1.5):
 				compteur+=1
+				print(compteur)
+				if(compteur==3):
+					tuture.stop()
+					break
+				time.sleep(1)
+
 		time.sleep(0.1)
 	except Exception as e:
 		print(e)
