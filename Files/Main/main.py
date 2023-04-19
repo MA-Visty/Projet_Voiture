@@ -1,42 +1,42 @@
+#!/usr/bin/env python3
+#coding:utf−8
+__author__ = "KOUATCHE TCHADIO Anila Keren , KOUPTCHINSKY Nicolas , LASSOIS Patrick , Mahieu Alexandre , VINETOT Nathan "
+__copyright__ = " Copyright 2023 , HEH - Project Voiture "
+
+import keyboard
 import os
 import time
-import keyboard
-from mClass.tuture import Car
+
+from allClass.tuture import Car
 
 def showSpeed(car):
 	car.direction.position = car.direction.midPulse
 	car.direction.update()
 	time.sleep(1)
-	car.move(30)
-	time.sleep(1)
-	car.move(60)
-	time.sleep(1)
-	car.move(100)
-	time.sleep(1)
-	car.move(-100)
-	time.sleep(1)
-	car.move(-60)
-	time.sleep(1)
-	car.move(-30)
-	time.sleep(1)
+
+	for i in range(4):
+		car.move(25 * i)
+		time.sleep(1)
+	
+	for i in range(4):
+		car.move(100 - (25 * i))
+		time.sleep(1)
+	
 	car.move(0)
 
 def circule(car):
 	speed = 60
 	mtime = 5
 
-	car.direction.position = car.direction.maxPulse
-	car.direction.update()
+	car.turn(car.direction.maxPulse)
 	time.sleep(0.5)
 	car.move(speed)
 	time.sleep(mtime)
 	car.move(0)
 	time.sleep(0.5)
-	car.direction.position = car.direction.midPulse
-	car.direction.update()
+	car.turn(car.direction.midPulse)
 	time.sleep(0.5)
-	car.direction.position = car.direction.minPulse
-	car.direction.update()
+	car.turn(car.direction.minPulse)
 	time.sleep(0.5)
 	car.move(speed)
 	time.sleep(mtime)
@@ -44,17 +44,13 @@ def circule(car):
 	time.sleep(0.5)
 
 def direction(car):
-	car.direction.position = car.direction.maxPulse
-	car.direction.update()
+	car.turn(car.direction.maxPulse)
 	time.sleep(0.5)
-	car.direction.position = car.direction.midPulse
-	car.direction.update()
+	car.turn(car.direction.midPulse)
 	time.sleep(0.5)
-	car.direction.position = car.direction.minPulse
-	car.direction.update()
+	car.turn(car.direction.minPulse)
 	time.sleep(0.5)
-	car.direction.position = car.direction.midPulse
-	car.direction.update()
+	car.turn(car.direction.midPulse)
 	time.sleep(0.5)
 
 def controleDistance(car):
@@ -64,11 +60,9 @@ def controleDistance(car):
 			if(time.time() - first >= 0.2):
 				first = time.time()
 				if(car.direction.position == car.direction.maxPulse):
-					car.direction.position = car.direction.midPulse
-					car.direction.update()
+					car.turn(car.direction.midPulse)
 				elif(car.direction.position == car.direction.midPulse):
-					car.direction.position = car.direction.minPulse
-					car.direction.update()
+					car.turn(car.direction.minPulse)
 				else:
 					pass
 		if keyboard.is_pressed('z'):
@@ -83,11 +77,9 @@ def controleDistance(car):
 			if(time.time() - first >= 0.2):
 				first = time.time()
 				if(car.direction.position == car.direction.minPulse):
-					car.direction.position = car.direction.midPulse
-					car.direction.update()
+					car.turn(car.direction.midPulse)
 				elif(car.direction.position == car.direction.midPulse):
-					car.direction.position = car.direction.maxPulse
-					car.direction.update()
+					car.turn(car.direction.maxPulse)
 				else:
 					pass
 

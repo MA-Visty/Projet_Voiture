@@ -1,9 +1,16 @@
+#!/usr/bin/env python3
+#coding:utf−8
+__author__ = "KOUATCHE TCHADIO Anila Keren , KOUPTCHINSKY Nicolas , LASSOIS Patrick , Mahieu Alexandre , VINETOT Nathan "
+__copyright__ = " Copyright 2023 , HEH - Project Voiture "
+
 import RPi.GPIO as GPIO
 import time
-from mClass.motorDC import DC
-from mClass.servoMotor import PAPA
-from mClass.sensorInfrared import Infrared
-from mClass.sensorUltraSonic import UltraSonic
+
+from allClass.motors.motorDC import DC
+from allClass.motors.servoMotor import PAPA
+from allClass.sensors.Color import Color
+from allClass.sensors.Infrared import Infrared
+from allClass.sensors.UltraSonic import UltraSonic
 
 class Car:
 	def __init__(self):
@@ -26,8 +33,11 @@ class Car:
 		# Sensor "UltraSonic" Right
 		self.sR = UltraSonic(26, 19)
 
-		# Sensor "INfrared"
+		# Sensor "Infrared"
 		self.sI = Infrared(20)
+		
+		# Sensor "Color"
+		self.sC = Color()
 	
 	def move(self, speed):
 		if(100 >= speed >= 10):
@@ -45,8 +55,9 @@ class Car:
 			self.mR.setSpeed(0)
 
 	def turn(self, deg):
-		if(150 <= deg <= 450):
+		if(self.direction.minPulse <= deg <= self.direction.maxPulse):
 			self.direction.setPosition(deg)
+			self.direction.update()
 	
 	def start(self):
 		self.sL.start()
@@ -63,5 +74,4 @@ class Car:
 		self.sF.stop()
 		self.sR.stop()
 		self.sI.stop()
-
 		GPIO.cleanup()

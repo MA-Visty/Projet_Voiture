@@ -1,7 +1,13 @@
-from mClass.PCA9685 import PWM
-import time
+#!/usr/bin/env python3
+#coding:utf−8
+__author__ = "KOUATCHE TCHADIO Anila Keren , KOUPTCHINSKY Nicolas , LASSOIS Patrick , Mahieu Alexandre , VINETOT Nathan "
+__copyright__ = " Copyright 2023 , HEH - Project Voiture "
+
 from ina219 import INA219
 from ina219 import DeviceRangeError
+import time
+
+from allClass.motors.PCA9685 import PWM
 
 class PAPA:
 	def __init__(self):
