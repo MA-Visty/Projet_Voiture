@@ -95,15 +95,16 @@ if __name__ == "__main__":
 	try:
 		tuture = Car()
 		tuture.start()
+		tuture.move(40)
 		compteur=0
 		while 1:
-			if(tuture.sI.getValue()==1.5):
+			if(tuture.sI.getValue()==1):
 				compteur+=1
 				print(compteur)
 				if(compteur==3):
 					tuture.stop()
 					break
-				time.sleep(1)
+				time.sleep(1.3)
 
 		time.sleep(0.1)
 	except Exception as e:
