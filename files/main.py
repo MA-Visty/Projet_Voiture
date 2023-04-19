@@ -95,33 +95,12 @@ if __name__ == "__main__":
 	try:
 		tuture = Car()
 		tuture.start()
-
-		if(int(input("Presentation vitesse (1 => pour oui): ")) == 1):
-			showSpeed(tuture)
-		if(int(input("Presentation direction (1 => pour oui): ")) == 1):
-			direction(tuture)
-			if(int(input("Test direction (1 => pour oui): ")) == 1):
-				while True:
-					tuture.direction.position = int(input("Valeur : "))
-					tuture.direction.update()
-					time.sleep(0.5)
-		if(int(input("Presentation cercle (1 => pour oui): ")) == 1):
-			circule(tuture)
-		if(int(input("ControleDistance (1 => pour oui): ")) == 1):
-			controleDistance(tuture)
-		
-
-		while True:
-			os.system("clear")
-
-			print(tuture.sL.getDistance(), "cm | ", tuture.sF.getDistance(), "cm | ", tuture.sR.getDistance(), "cm")
-			print("Valeur Infrarouge:", tuture.sI.getValue())
-			print("Vitesse moteur Gauche:", tuture.mL.getSpeed())
-			print("Vitesse moteur Droit:", tuture.mR.getSpeed())
-			print("Position servomoteur:", tuture.direction.getPosition())
-
-			time.sleep(0.1)
-	
+		compteur=0
+		while 1:
+			print(compteur)
+			if(tuture.sI.getValue==1):
+				compteur+=1
+		time.sleep(0.1)
 	except Exception as e:
 		print(e)
 	

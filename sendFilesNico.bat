@@ -1,0 +1,1 @@
+scp -r files/ piG6@10.3.141.1:nicotest/
