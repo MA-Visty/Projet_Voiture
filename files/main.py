@@ -61,17 +61,17 @@ if __name__ == "__main__":
 		tuture = Car()
 		tuture.start()
 
-		if(int(input("Presentation vitesse (1 => pour oui):")) == 1):
+		if(int(input("Presentation vitesse (1 => pour oui): ")) == 1):
 			showSpeed(tuture)
-		if(int(input("Presentation cercle (1 => pour oui):")) == 1):
-			circule(tuture)
-		if(int(input("Presentation direction (1 => pour oui):")) == 1):
+		if(int(input("Presentation direction (1 => pour oui): ")) == 1):
 			direction(tuture)
-			if(int(input("Presentation direction (1 => pour oui):")) == 1):
+			if(int(input("Test direction (1 => pour oui): ")) == 1):
 				while True:
-					tuture.direction.position = int(input())
+					tuture.direction.position = int(input("Valeur : "))
 					tuture.direction.update()
 					time.sleep(0.5)
+		if(int(input("Presentation cercle (1 => pour oui): ")) == 1):
+			circule(tuture)
 
 		while True:
 			os.system("clear")

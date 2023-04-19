@@ -30,13 +30,11 @@ class PAPA:
 
 	def update(self):
 		self.pwm.write(0, 0, self.position)
-		self.read()
 	
 	def setPosition(self, _pos):
 		self.position = _pos
 	
 	def getPosition(self):
-		self.read()
 		return self.position
 
 	def reset(self):
@@ -44,11 +42,12 @@ class PAPA:
 		self.update()
 
 	def read(self):
-		ina = INA219(0.1)
+		pass
 		"""
+		ina = INA219(0.1)
 		ina.configure()
-		print("Bus Voltage: %.3f V" % ina.voltage())
 		try:
+			print("Bus Voltage: %.3f V" % ina.voltage())
 			print("Bus Current: %.3f mA" % ina.current())
 			print("Power: %.3f mW" % ina.power())
 			print("Shunt voltage: %.3f mV" % ina.shunt_voltage())

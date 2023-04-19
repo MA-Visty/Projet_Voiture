@@ -16,6 +16,8 @@ class Car:
 		self.mR = DC(27, 22, 4)
 		# Servomotor
 		self.direction = PAPA()
+		self.mL.setSpeed(0)
+		self.mR.setSpeed(0)
 
 		# Sensor "UltraSonic" Left
 		self.sL = UltraSonic(11, 9)
