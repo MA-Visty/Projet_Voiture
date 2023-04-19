@@ -1,5 +1,6 @@
 import os
 import time
+import keyboard
 from mClass.tuture import Car
 
 def showSpeed(car):
@@ -56,6 +57,40 @@ def direction(car):
 	car.direction.update()
 	time.sleep(0.5)
 
+def controleDistance(car):
+	first = time.time()
+	while True:
+		if keyboard.is_pressed('q'):
+			if(time.time() - first >= 0.2):
+				first = time.time()
+				if(car.direction.position == car.direction.maxPulse):
+					car.direction.position = car.direction.midPulse
+					car.direction.update()
+				elif(car.direction.position == car.direction.midPulse):
+					car.direction.position = car.direction.minPulse
+					car.direction.update()
+				else:
+					pass
+		if keyboard.is_pressed('z'):
+			if(time.time() - first >= 0.2):
+				first = time.time()
+				print('z')
+		if keyboard.is_pressed('s'):
+			if(time.time() - first >= 0.2):
+				first = time.time()
+				print('s')
+		if keyboard.is_pressed('d'):
+			if(time.time() - first >= 0.2):
+				first = time.time()
+				if(car.direction.position == car.direction.minPulse):
+					car.direction.position = car.direction.midPulse
+					car.direction.update()
+				elif(car.direction.position == car.direction.midPulse):
+					car.direction.position = car.direction.maxPulse
+					car.direction.update()
+				else:
+					pass
+
 if __name__ == "__main__":
 	try:
 		tuture = Car()
@@ -72,6 +107,9 @@ if __name__ == "__main__":
 					time.sleep(0.5)
 		if(int(input("Presentation cercle (1 => pour oui): ")) == 1):
 			circule(tuture)
+		if(int(input("ControleDistance (1 => pour oui): ")) == 1):
+			controleDistance(tuture)
+		
 
 		while True:
 			os.system("clear")
@@ -85,7 +123,7 @@ if __name__ == "__main__":
 			time.sleep(0.1)
 	
 	except Exception as e:
-		pass
+		print(e)
 	
 	finally:
 		tuture.stop()

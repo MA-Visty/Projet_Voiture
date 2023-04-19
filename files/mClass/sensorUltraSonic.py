@@ -11,6 +11,13 @@ class UltraSonic(Thread):
 		self.isKilled = False
 		self.distance = 0
 
+	def setDistance(self, _distance):
+		if(2 <= _distance <= 400):
+			self.distance = _distance
+	
+	def getDistance(self):
+		return self.distance
+
 	def update(self):
 		# Send signal
 		GPIO.output(self.pinTrig, GPIO.HIGH)
@@ -26,7 +33,7 @@ class UltraSonic(Thread):
 
 		# Calculate distance
 		pulse_duration = pulse_end_time - pulse_start_time
-		self.distance = round(pulse_duration * 17150, 2)
+		self.setDistance(round(pulse_duration * 17150, 2))
 
 	def run(self):
 		GPIO.setup(self.pinTrig, GPIO.OUT)
@@ -41,6 +48,3 @@ class UltraSonic(Thread):
 	
 	def stop(self):
 		self.isKilled = True
-
-	def getDistance(self):
-		return self.distance
