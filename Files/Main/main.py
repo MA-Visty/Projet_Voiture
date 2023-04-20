@@ -156,10 +156,15 @@ if __name__ == "__main__":
 	try:
 		tuture = Car()
 		tuture.start()
-		
+		tuture.move(30)
 		while True:
-			menu(tuture)
-	
+			if(tuture.sR.getDistance()<22):
+				tuture.turn(180)
+			elif(tuture.sR.getDistance()>23):
+				tuture.turn(320)
+			else:
+				tuture.turn(250)
+		time.sleep(0.05)
 	except Exception as e:
 		print(e)
 	
