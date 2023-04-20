@@ -54,11 +54,14 @@ class UltraSonic(Sensor):
 				moyenne = moyenne / len(self.distances)
 
 				if((moyenne - (moyenne * 0.1)) < _distance < (moyenne + (moyenne * 0.1))):
-					self.distances.append(_distance)
 					self.distance = _distance
+				
+				self.distances.append(_distance)
 
 				if(len(self.distances) > 5):
 					self.distances.pop(0)
+		
+		print(self.distances)
 	
 	def getDistance(self):
 		return self.distance
