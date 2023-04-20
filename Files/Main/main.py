@@ -10,8 +10,7 @@ import time
 from allClass.tuture import Car
 
 def showSpeed(car):
-	car.direction.position = car.direction.midPulse
-	car.direction.update()
+	car.turn(car.direction.midPulse)
 	time.sleep(1)
 
 	for i in range(4):
@@ -64,8 +63,12 @@ def mLong(car):
 
 		if(car.sL.getDistance() < 25):
 			car.turn(350)
+		else:
+			car.turn(250)
 		if(car.sR.getDistance() < 25):
 			car.turn(150)
+		else:
+			car.turn(250)
 		
 		time.sleep(0.05)
 
@@ -73,7 +76,7 @@ def printInfo(car):
 	os.system("clear")
 	print(car.sL.getDistance(), "cm | ", car.sF.getDistance(), "cm | ", car.sR.getDistance(), "cm")
 	print("Valeur Infrarouge:", car.sI.getValue())
-	print("Valeur Couleur:", car.direction.getPosition())
+	print("Valeur Couleur:", "none")
 	print("Vitesse moteur Gauche:", car.mL.getSpeed())
 	print("Vitesse moteur Droit:", car.mR.getSpeed())
 	print("Position servomoteur:", car.direction.getPosition())
@@ -114,7 +117,7 @@ def menu(car):
 		if(choix == 1):
 			while True:
 				printInfo(car)
-				time.sleep(0.1)
+				time.sleep(0.5)
 		elif(choix == 2):
 			showSpeed(car)
 		elif(choix == 3):
@@ -141,8 +144,9 @@ if __name__ == "__main__":
 	try:
 		tuture = Car()
 		tuture.start()
-
-		menu(tuture)
+		
+		while True:
+			menu(tuture)
 	
 	except Exception as e:
 		print(e)

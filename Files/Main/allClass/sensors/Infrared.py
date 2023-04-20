@@ -13,14 +13,14 @@ class Infrared(Sensor):
 		super().__init__()
 		self.pin = _pin
 		self.value = 0
-	
-	def run(self):
+
 		# Set up the GPIO pins
 		GPIO.setup(self.pin, GPIO.IN)
-
+	
+	def run(self):
 		while not self.isKilled:
 			self.setValue(GPIO.input(self.pin))
-			time.sleep(0.1)
+			time.sleep(0.05)
 
 		print(self, " is killed")
 

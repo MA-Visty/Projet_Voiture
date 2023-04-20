@@ -14,37 +14,29 @@ class PAPA:
 		self.minPulse = 150
 		self.midPulse = 250
 		self.maxPulse = 400
-		self.position = 0
+		self.position = self.midPulse
 		self.frequency = 50
 		self.pwm = PWM()
 		self.pwm.frequency = self.frequency
 
 		self.reset()
 
-	def turn(self, left=False, right=False):
-		if(left):
-			self.position += 15
-		if(right):
-			self.position -= 15
-		
-		if(self.position < self.minPulse):
-			self.position = self.minPulse
-		if(self.position > self.maxPulse):
-			self.position = self.maxPulse
-
-		self.update()
-
 	def update(self):
-		self.pwm.write(0, 0, self.position)
+		if(self.minPulse <= self.position <= self.maxPulse):
+			self.pwm.write(0, 0, self.position)
+			self.read()
+		else:
+			self.reset()
 	
 	def setPosition(self, _pos):
-		self.position = _pos
+		if(self.minPulse <= _pos <= self.maxPulse):
+			self.position = _pos
 	
 	def getPosition(self):
 		return self.position
 
 	def reset(self):
-		self.position = self.midPulse
+		self.setPosition(self.midPulse)
 		self.update()
 
 	def read(self):

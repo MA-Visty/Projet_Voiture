@@ -10,21 +10,15 @@ import allClass.motors.PCA9685 as PCA
 
 class DC:
 	def __init__(self, _pinA, _pinB, _en):
-		self.pinA=_pinA
-		self.pinB=_pinB
-		self.en=_en
-		self.pins=[_pinA,_pinB]
+		self.pinA = _pinA
+		self.pinB = _pinB
+		self.en = _en
 		self.speed = 0
-		busnum=None
-		global pwm
-		if busnum == None:
-			pwm = PCA.PWM()                  # Initialize the servo controller.
-		else:
-			pwm = PCA.PWM(bus_number=busnum) # Initialize the servo controller.
-		pwm.frequency = 60
+		# Initialize the servo controller.
+		self.pwm = PCA.PWM()
+		self.pwm.frequency = 60
+
 		self.forwardB = 'True'
-		GPIO.setwarnings(False)
-		GPIO.setmode(GPIO.BCM)        # Number GPIOs by its physical location
 		try:
 			for line in open("config"):
 				if line[0:8] == "forward0":
@@ -35,8 +29,10 @@ class DC:
 			self.backwardB = 'False'
 		elif self.forwardB == 'False':
 			self.backwardB = 'True'
-		for pin in self.pins:
-			GPIO.setup(pin, GPIO.OUT)   # Set all pins' mode as output
+		
+		# Set all pins' mode as output
+		GPIO.setup(self.pinA, GPIO.OUT)
+		GPIO.setup(self.pinB, GPIO.OUT)
 
 	def motor(self,x):
 		if x == 'True':
@@ -46,12 +42,15 @@ class DC:
 			GPIO.output(self.pinA, GPIO.HIGH)
 			GPIO.output(self.pinB, GPIO.LOW)
 		else:
-			print ('Config Error')
+			raise Exception('Config Error')
 
-	def setSpeed(self,speed):
+	def update(self):
+		self.pwm.write(self.en, 0, self.speed)
+
+	def setSpeed(self, speed):
 		speed *= 40
 		self.speed = speed
-		pwm.write(self.en, 0, self.speed)
+		self.update()
 
 	def getSpeed(self):
 		return self.speed
@@ -63,5 +62,5 @@ class DC:
 		self.motor(self.backwardB)
 
 	def stop(self):
-		for pin in self.pins:
-			GPIO.output(pin, GPIO.LOW)
+		GPIO.output(self.pinA, GPIO.LOW)
+		GPIO.output(self.pinB, GPIO.LOW)

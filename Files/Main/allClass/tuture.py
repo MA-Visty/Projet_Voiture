@@ -14,6 +14,7 @@ from allClass.sensors.UltraSonic import UltraSonic
 
 class Car:
 	def __init__(self):
+		# Number GPIOs by its physical location
 		GPIO.setmode(GPIO.BCM)
 		GPIO.setwarnings(False)
 
@@ -66,10 +67,9 @@ class Car:
 		self.sI.start()
 	
 	def stop(self):
-		self.move(0)
-		self.direction.position = self.direction.midPulse
-		self.direction.update()
-
+		self.mL.stop()
+		self.mR.stop()
+		self.direction.reset()
 		self.sL.stop()
 		self.sF.stop()
 		self.sR.stop()

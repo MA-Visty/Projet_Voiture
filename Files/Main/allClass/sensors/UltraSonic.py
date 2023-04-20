@@ -15,9 +15,11 @@ class UltraSonic(Sensor):
 		self.pinEcho = _pinEcho
 		self.distance = 0
 
-	def run(self):
+		# Set up the GPIO pins
 		GPIO.setup(self.pinTrig, GPIO.OUT)
 		GPIO.setup(self.pinEcho, GPIO.IN)
+
+	def run(self):
 		GPIO.output(self.pinTrig, GPIO.LOW)
 
 		while not self.isKilled:
