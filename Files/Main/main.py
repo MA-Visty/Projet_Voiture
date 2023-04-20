@@ -151,20 +151,20 @@ def menu(car):
 		print(e)
 		input("Press <<ENTER>> for pass error")
 		menu(car)
-
+def suivimur(car):
+	if(car.sR.getDistance()<22):
+		car.turn(180)
+	elif(car.sR.getDistance()>23):
+		car.turn(320)
+	else:
+		car.turn(250)
 if __name__ == "__main__":
 	try:
 		tuture = Car()
 		tuture.start()
 		
 		while True:
-			if(tuture.sR.getDistance()<22):
-				tuture.turn(180)
-			elif(tuture.sR.getDistance()>23):
-				tuture.turn(320)
-			else:
-				tuture.turn(250)
-		time.sleep(0.05)
+			suivimur()
 	except Exception as e:
 		print(e)
 	
