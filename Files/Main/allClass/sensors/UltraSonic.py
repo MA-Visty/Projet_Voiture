@@ -61,6 +61,7 @@ class UltraSonic(Sensor):
 				if(len(self.distances) > 5):
 					self.distances.pop(0)
 		
+		print(self.distances)
 	
 	def getDistance(self):
 		return self.distance
