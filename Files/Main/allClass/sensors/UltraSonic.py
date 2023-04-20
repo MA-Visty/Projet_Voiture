@@ -14,6 +14,7 @@ class UltraSonic(Sensor):
 		self.pinTrig = _pinTrig
 		self.pinEcho = _pinEcho
 		self.distance = 0
+		self.distances = []
 
 		# Set up the GPIO pins
 		GPIO.setup(self.pinTrig, GPIO.OUT)
@@ -43,7 +44,23 @@ class UltraSonic(Sensor):
 
 	def setDistance(self, _distance):
 		if(2 <= _distance <= 400):
-			self.distance = _distance
+			if(len(self.distances) == 0):
+				self.distance = _distance
+				self.distances.append(self.distance)
+			else:
+				moyenne = 0
+				for nbr in self.distances:
+					moyenne += nbr
+				moyenne = moyenne / len(self.distances)
+
+				if((moyenne - (moyenne * 0.1)) < _distance < (moyenne + (moyenne * 0.1))):
+					self.distances.append(_distance)
+					self.distance = _distance
+
+				if(len(self.distances) > 5):
+					self.distances.pop(0)
+		
+		print(self.distances)
 	
 	def getDistance(self):
 		return self.distance
