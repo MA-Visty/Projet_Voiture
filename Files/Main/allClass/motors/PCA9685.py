@@ -1,4 +1,5 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
+#coding:utf−8
 '''
 **********************************************************************
 * Filename    : PCA9685.py
@@ -11,9 +12,9 @@
 **********************************************************************
 '''
 
+import math
 import smbus
 import time
-import math
 
 class PWM(object):
     """A PWM control class for PCA9685."""

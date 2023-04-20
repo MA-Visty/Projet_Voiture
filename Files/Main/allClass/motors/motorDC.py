@@ -1,6 +1,12 @@
+#!/usr/bin/env python3
+#coding:utf−8
+__author__ = "KOUATCHE TCHADIO Anila Keren , KOUPTCHINSKY Nicolas , LASSOIS Patrick , Mahieu Alexandre , VINETOT Nathan "
+__copyright__ = " Copyright 2023 , HEH - Project Voiture "
+
 import RPi.GPIO as GPIO
-import mClass.PCA9685 as p
-import time    # Import necessary modules
+import time
+
+import allClass.motors.PCA9685 as PCA
 
 class DC:
 	def __init__(self, _pinA, _pinB, _en):
@@ -12,9 +18,9 @@ class DC:
 		busnum=None
 		global pwm
 		if busnum == None:
-			pwm = p.PWM()                  # Initialize the servo controller.
+			pwm = PCA.PWM()                  # Initialize the servo controller.
 		else:
-			pwm = p.PWM(bus_number=busnum) # Initialize the servo controller.
+			pwm = PCA.PWM(bus_number=busnum) # Initialize the servo controller.
 		pwm.frequency = 60
 		self.forwardB = 'True'
 		GPIO.setwarnings(False)
