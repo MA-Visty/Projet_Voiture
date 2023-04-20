@@ -156,7 +156,7 @@ if __name__ == "__main__":
 	try:
 		tuture = Car()
 		tuture.start()
-		tuture.move(50)
+		tuture.move(30)
 		while True:
 			#os.system("clear")
 			#print(tuture.sF.getDistance())
@@ -169,8 +169,10 @@ if __name__ == "__main__":
 					tuture.turn(250)
 			elif(tuture.sR.getDistance()>tuture.sL.getDistance()):
 				tuture.turn(400)
+				time.sleep(1)
 			else:
 				tuture.turn(150)
+				time.sleep(1)
 			#time.sleep(0.05)
 	except Exception as e:
 		print(e)
