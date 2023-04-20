@@ -52,15 +52,24 @@ def direction(car):
 	car.turn(car.direction.midPulse)
 	time.sleep(0.5)
 
-def mLong(car):
+def testAlgo(car):
 	while True:
 		printInfo(car)
 
-		if(car.sF.getDistance() >= 15):
-			car.move(50)
+		if(car.sF.getDistance() >= 20):
+			car.move(100)
 		else:
 			car.move(0)
 
+		if(car.sL.getDistance() < 30):
+			car.turn(200)
+		else:
+			car.turn(255)
+		if(car.sL.getDistance() > 40):
+			car.turn(300)
+		else:
+			car.turn(245)
+		"""
 		if(car.sL.getDistance() < 25):
 			car.turn(350)
 		else:
@@ -69,6 +78,7 @@ def mLong(car):
 			car.turn(150)
 		else:
 			car.turn(250)
+		"""
 		
 		time.sleep(0.05)
 
@@ -109,7 +119,7 @@ def menu(car):
 		print("Controle a Distance - ")
 		print("Test Direction - 6")
 
-		print("NotToDay - 7")
+		print("Test Algo - 7")
 		print("Char - 8")
 		
 		choix = int(input(">>> "))
@@ -131,13 +141,15 @@ def menu(car):
 				car.turn(int(input("Valeur : ")))
 				time.sleep(0.5)
 		elif(choix == 7):
-			mLong(car)
+			testAlgo(car)
 		elif(choix == 8):
 			car.turn(150)
 			char(car, left=True, time=0.5)
 			car.turn(350)
 			char(car, right=True, time=0.5)
 	except Exception as e:
+		print(e)
+		input("Press <<ENTER>> for pass error")
 		menu(car)
 
 if __name__ == "__main__":

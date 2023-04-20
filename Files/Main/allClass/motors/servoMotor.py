@@ -19,6 +19,9 @@ class PAPA:
 		self.pwm = PWM()
 		self.pwm.frequency = self.frequency
 
+		self.ina = INA219(0.1)
+		#self.ina.configure() # -> bug motorDC is on
+
 		self.reset()
 
 	def update(self):
@@ -40,16 +43,14 @@ class PAPA:
 		self.update()
 
 	def read(self):
-		pass
-		"""
-		ina = INA219(0.1)
-		ina.configure()
 		try:
-			print("Bus Voltage: %.3f V" % ina.voltage())
-			print("Bus Current: %.3f mA" % ina.current())
-			print("Power: %.3f mW" % ina.power())
-			print("Shunt voltage: %.3f mV" % ina.shunt_voltage())
+			pass
+			"""
+			print("Bus Voltage: %.3f V" % self.ina.voltage())
+			print("Bus Current: %.3f mA" % self.ina.current())
+			print("Power: %.3f mW" % self.ina.power())
+			print("Shunt voltage: %.3f mV" % self.ina.shunt_voltage())
+			"""
 		except DeviceRangeError as e:
 			# Current out of device range with specified shunt resistor
 			print(e)
-		"""
