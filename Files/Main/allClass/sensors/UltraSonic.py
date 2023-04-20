@@ -9,11 +9,10 @@ import time
 from allClass.sensors.Sensors import Sensor
 
 class UltraSonic(Sensor):
-	def __init__(self, _pinTrig, _pinEcho, _intervalTime=1):
+	def __init__(self, _pinTrig, _pinEcho):
 		super().__init__()
 		self.pinTrig = _pinTrig
 		self.pinEcho = _pinEcho
-		self.intervalTime = _intervalTime
 		self.distance = 0
 
 	def run(self):
@@ -37,7 +36,6 @@ class UltraSonic(Sensor):
 			# Calculate distance
 			pulse_duration = pulse_end_time - pulse_start_time
 			self.setDistance(round(pulse_duration * 17150, 2))
-			time.sleep(self.intervalTime)
 
 		print(self, " is killed")
 

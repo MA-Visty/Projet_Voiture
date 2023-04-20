@@ -23,7 +23,6 @@ class Infrared(Sensor):
 			time.sleep(0.1)
 
 		print(self, " is killed")
-		GPIO.cleanup(self.pin)
 
 	def setValue(self, _val):
 		self.value = _val

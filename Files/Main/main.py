@@ -53,66 +53,96 @@ def direction(car):
 	car.turn(car.direction.midPulse)
 	time.sleep(0.5)
 
-def controleDistance(car):
-	first = time.time()
+def mLong(car):
 	while True:
-		if keyboard.is_pressed('q'):
-			if(time.time() - first >= 0.2):
-				first = time.time()
-				if(car.direction.position == car.direction.maxPulse):
-					car.turn(car.direction.midPulse)
-				elif(car.direction.position == car.direction.midPulse):
-					car.turn(car.direction.minPulse)
-				else:
-					pass
-		if keyboard.is_pressed('z'):
-			if(time.time() - first >= 0.2):
-				first = time.time()
-				print('z')
-		if keyboard.is_pressed('s'):
-			if(time.time() - first >= 0.2):
-				first = time.time()
-				print('s')
-		if keyboard.is_pressed('d'):
-			if(time.time() - first >= 0.2):
-				first = time.time()
-				if(car.direction.position == car.direction.minPulse):
-					car.turn(car.direction.midPulse)
-				elif(car.direction.position == car.direction.midPulse):
-					car.turn(car.direction.maxPulse)
-				else:
-					pass
+		printInfo(car)
+
+		if(car.sF.getDistance() >= 15):
+			car.move(50)
+		else:
+			car.move(0)
+
+		if(car.sL.getDistance() < 25):
+			car.turn(350)
+		if(car.sR.getDistance() < 25):
+			car.turn(150)
+		
+		time.sleep(0.05)
+
+def printInfo(car):
+	os.system("clear")
+	print(car.sL.getDistance(), "cm | ", car.sF.getDistance(), "cm | ", car.sR.getDistance(), "cm")
+	print("Valeur Infrarouge:", car.sI.getValue())
+	print("Valeur Couleur:", car.direction.getPosition())
+	print("Vitesse moteur Gauche:", car.mL.getSpeed())
+	print("Vitesse moteur Droit:", car.mR.getSpeed())
+	print("Position servomoteur:", car.direction.getPosition())
+
+def char(car, left=False, right=False, time=0.0):
+	if(left):
+		car.mL.backward()
+		car.mL.setSpeed(100)
+		car.mR.forward()
+		car.mR.setSpeed(100)
+		time.sleep(time)
+		car.move(0)
+	
+	if(right):
+		car.mL.forward()
+		car.mL.setSpeed(100)
+		car.mR.backward()
+		car.mR.setSpeed(100)
+		time.sleep(time)
+		car.move(0)
+
+def menu(car):
+	try:
+		print("> ------")
+		print("Info General - 1")
+		print("Presentation Vitesse - 2")
+		print("Presentation Direction - 3")
+		print("Presentation Cercle - 4")
+		print("> ------")
+		print("Controle a Distance - ")
+		print("Test Direction - 6")
+
+		print("NotToDay - 7")
+		print("Char - 8")
+		
+		choix = int(input(">>> "))
+		
+		if(choix == 1):
+			while True:
+				printInfo(car)
+				time.sleep(0.1)
+		elif(choix == 2):
+			showSpeed(car)
+		elif(choix == 3):
+			direction(car)
+		elif(choix == 4):
+			circule(car)
+		elif(choix == 5):
+			pass
+		elif(choix == 6):
+			while True:
+				car.turn(int(input("Valeur : ")))
+				time.sleep(0.5)
+		elif(choix == 7):
+			mLong(car)
+		elif(choix == 8):
+			car.turn(150)
+			char(car, left=True, time=0.5)
+			car.turn(350)
+			char(car, right=True, time=0.5)
+	except Exception as e:
+		menu(car)
 
 if __name__ == "__main__":
 	try:
 		tuture = Car()
 		tuture.start()
 
-		if(int(input("Presentation vitesse (1 => pour oui): ")) == 1):
-			showSpeed(tuture)
-		if(int(input("Presentation direction (1 => pour oui): ")) == 1):
-			direction(tuture)
-			if(int(input("Test direction (1 => pour oui): ")) == 1):
-				while True:
-					tuture.direction.position = int(input("Valeur : "))
-					tuture.direction.update()
-					time.sleep(0.5)
-		if(int(input("Presentation cercle (1 => pour oui): ")) == 1):
-			circule(tuture)
-		if(int(input("ControleDistance (1 => pour oui): ")) == 1):
-			controleDistance(tuture)
-		
-
-		while True:
-			os.system("clear")
-
-			print(tuture.sL.getDistance(), "cm | ", tuture.sF.getDistance(), "cm | ", tuture.sR.getDistance(), "cm")
-			print("Valeur Infrarouge:", tuture.sI.getValue())
-			print("Vitesse moteur Gauche:", tuture.mL.getSpeed())
-			print("Vitesse moteur Droit:", tuture.mR.getSpeed())
-			print("Position servomoteur:", tuture.direction.getPosition())
-
-			time.sleep(0.1)
+		menu(tuture)
 	
 	except Exception as e:
 		print(e)
