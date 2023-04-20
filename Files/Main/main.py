@@ -151,7 +151,20 @@ def menu(car):
 		print(e)
 		input("Press <<ENTER>> for pass error")
 		menu(car)
-
+def circuitTour(car):
+	if(tuture.sF.getDistance()>35):
+		if(tuture.sR.getDistance()<25):
+			tuture.turn(180)
+		elif(tuture.sL.getDistance()<25):
+			tuture.turn(340)
+		else:
+			tuture.turn(250)
+	elif(tuture.sR.getDistance()>tuture.sL.getDistance()):
+		tuture.turn(400)
+		time.sleep(1)
+	else:
+		tuture.turn(150)
+		time.sleep(1)
 if __name__ == "__main__":
 	try:
 		tuture = Car()
@@ -160,19 +173,7 @@ if __name__ == "__main__":
 		while True:
 			#os.system("clear")
 			#print(tuture.sF.getDistance())
-			if(tuture.sF.getDistance()>35):
-				if(tuture.sR.getDistance()<25):
-					tuture.turn(180)
-				elif(tuture.sL.getDistance()<25):
-					tuture.turn(340)
-				else:
-					tuture.turn(250)
-			elif(tuture.sR.getDistance()>tuture.sL.getDistance()):
-				tuture.turn(400)
-				time.sleep(1)
-			else:
-				tuture.turn(150)
-				time.sleep(1)
+			circuitTour(tuture)
 			#time.sleep(0.05)
 	except Exception as e:
 		print(e)
