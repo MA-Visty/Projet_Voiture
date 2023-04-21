@@ -18,12 +18,12 @@ class Car:
 		GPIO.setmode(GPIO.BCM)
 		GPIO.setwarnings(False)
 
+		# Servomotor
+		self.direction = PAPA()
 		# Motor Left
 		self.mL = DC(24, 23, 5)
 		# Motor Right
 		self.mR = DC(27, 22, 4)
-		# Servomotor
-		self.direction = PAPA()
 
 		# Sensor "UltraSonic" Left
 		self.sL = UltraSonic(11, 9)
@@ -56,20 +56,26 @@ class Car:
 	def turn(self, deg):
 		if(self.direction.minPulse <= deg <= self.direction.maxPulse):
 			self.direction.setPosition(deg)
-			self.direction.update()
 	
 	def start(self):
 		self.sL.start()
 		self.sF.start()
 		self.sR.start()
 		self.sI.start()
+		self.sC.start()
+
+		self.direction.start()
+		self.direction.reset()
+		self.move(0)
 	
 	def stop(self):
 		self.mL.stop()
 		self.mR.stop()
+		self.direction.stop()
 		self.direction.reset()
 		self.sL.stop()
 		self.sF.stop()
 		self.sR.stop()
 		self.sI.stop()
+		self.sC.stop()
 		GPIO.cleanup()

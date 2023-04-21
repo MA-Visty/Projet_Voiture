@@ -12,3 +12,4 @@ class Sensor(Thread):
 	
 	def stop(self):
 		self.isKilled = True
+		self.join()

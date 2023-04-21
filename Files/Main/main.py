@@ -23,7 +23,17 @@ def showSpeed(car):
 	
 	car.move(0)
 
-def circule(car):
+def showDirection(car):
+	car.turn(car.direction.maxPulse)
+	time.sleep(0.5)
+	car.turn(car.direction.midPulse)
+	time.sleep(0.5)
+	car.turn(car.direction.minPulse)
+	time.sleep(0.5)
+	car.turn(car.direction.midPulse)
+	time.sleep(0.5)
+
+def showCircle(car):
 	speed = 60
 	mtime = 5
 
@@ -42,56 +52,72 @@ def circule(car):
 	car.move(0)
 	time.sleep(0.5)
 
-def direction(car):
-	car.turn(car.direction.maxPulse)
-	time.sleep(0.5)
-	car.turn(car.direction.midPulse)
-	time.sleep(0.5)
-	car.turn(car.direction.minPulse)
-	time.sleep(0.5)
-	car.turn(car.direction.midPulse)
-	time.sleep(0.5)
-
-def testAlgo(car):
+def suivimur(car):
 	while True:
-		printInfo(car)
-
-		if(car.sF.getDistance() >= 20):
-			car.move(100)
-		else:
-			car.move(0)
-
-		if(car.sL.getDistance() < 30):
-			car.turn(200)
-		else:
-			car.turn(255)
-		if(car.sL.getDistance() > 40):
-			car.turn(300)
-		else:
-			car.turn(245)
-		"""
-		if(car.sL.getDistance() < 25):
-			car.turn(350)
+		if(car.sR.getDistance()<22):
+			car.turn(180)
+		elif(car.sR.getDistance()>23):
+			car.turn(320)
 		else:
 			car.turn(250)
-		if(car.sR.getDistance() < 25):
-			car.turn(150)
+
+def circuitTour(car):
+	tuture.move(30)
+	while True:
+		if(tuture.sF.getDistance()>35):
+			if(tuture.sR.getDistance()<25):
+				tuture.turn(180)
+			elif(tuture.sL.getDistance()<25):
+				tuture.turn(340)
+			else:
+				tuture.turn(250)
+		elif(tuture.sR.getDistance()>tuture.sL.getDistance()):
+			tuture.turn(400)
+			time.sleep(1)
 		else:
-			car.turn(250)
-		"""
-		
-		time.sleep(0.05)
+			tuture.turn(150)
+			time.sleep(1)
 
-def printInfo(car):
-	os.system("clear")
-	print(car.sL.getDistance(), "cm | ", car.sF.getDistance(), "cm | ", car.sR.getDistance(), "cm")
-	print("Valeur Infrarouge:", car.sI.getValue())
-	print("Valeur Couleur:", "none")
-	print("Vitesse moteur Gauche:", car.mL.getSpeed())
-	print("Vitesse moteur Droit:", car.mR.getSpeed())
-	print("Position servomoteur:", car.direction.getPosition())
+def circuitNbrTour(car):
+	nbtour=int(input("Combien de tours ? "))
+	tuture.sI.reset(nbtour)
+	while not tuture.sI.valueStop:
+		circuitTour(tuture)
 
-def char(car, left=False, right=False, time=0.0):
+def circuitTourColor(car):
+	while not car.sC.getGO():
+		pass
+
+	while True:
+			if(tuture.sF.getDistance()>35):
+				if(tuture.sR.getDistance()<25):
+					tuture.turn(180)
+				elif(tuture.sL.getDistance()<25):
+					tuture.turn(340)
+				else:
+					tuture.turn(250)
+			elif(tuture.sR.getDistance()>tuture.sL.getDistance()):
+				tuture.turn(400)
+				time.sleep(1)
+			else:
+				tuture.turn(150)
+				time.sleep(1)
+
+def testSpeed(car):
+	while True:
+		clear()
+		print("Vitesse moteur gauche actuelle : ", car.mL.getSpeed())
+		print("Vitesse moteur droit actuelle : ", car.mR.getSpeed())
+		car.move(int(input("Valeur : ")))
+
+def testDirection(car):
+	while True:
+		clear()
+		printINA(car)
+		print("Position actuelle : ", car.direction.getPosition())
+		car.turn(int(input("Valeur : ")))
+
+def testChar(car, left=False, right=False, time=0.0):
 	if(left):
 		car.mL.backward()
 		car.mL.setSpeed(100)
@@ -108,81 +134,143 @@ def char(car, left=False, right=False, time=0.0):
 		time.sleep(time)
 		car.move(0)
 
+def testColor(car):
+	while True:
+		printInfo(car)
+		print()
+		print(car.sC.valColor)
+		print(car.sC.valLux)
+		print(car.sC.getGO())
+		if(car.sC.getGO()):
+			car.move(30)
+			
+def testControle(car):
+	speed = 0
+	while True:
+		nbr = input("z | q | s | d >>> ")
+
+		if(nbr == "z"):
+			if(speed < 0):
+				car.move(0)
+				speed = 0
+			else:
+				car.move(60)
+				speed = 60
+		elif(nbr == "s"):
+			if(speed > 0):
+				car.move(0)
+				speed = 0
+			else:
+				car.move(-60)
+				speed = -60
+		elif(nbr == "q"):
+			if(car.direction.getPosition() > 250):
+				car.turn(245)
+			else:
+				car.turn(400)
+		elif(nbr == "d"):
+			if(car.direction.getPosition() < 250):
+				car.turn(255)
+			else:
+				car.turn(150)
+
+def clear():
+	os.system("clear")
+
+def printInfo(car):
+	clear()
+	print(car.sL.getDistance(), "cm | ", car.sF.getDistance(), "cm | ", car.sR.getDistance(), "cm")
+	print("Valeur Infrarouge:", car.sI.getValue())
+	print('Valeur Couleur: ', car.sC.getColor())
+	print('Valeur Temperature:', car.sC.getTemp(), 'K')
+	print('Valeur Lux:', car.sC.getLux())
+	print("Vitesse moteur Gauche:", car.mL.getSpeed())
+	print("Vitesse moteur Droit:", car.mR.getSpeed())
+	print("Position servomoteur:", car.direction.getPosition())
+	printINA(car)
+
+def printINA(car):
+	print("Bus Voltage: %.3f V" % car.direction.ina.getVoltage())
+	print("Bus Current: %.3f mA" % car.direction.ina.getCurrent())
+	print("Power: %.3f mW" % car.direction.ina.getPower())
+	print("Shunt voltage: %.3f mV" % car.direction.ina.getShuntVoltage())
+
 def menu(car):
 	try:
-		print("> ------")
-		print("Info General - 1")
-		print("Presentation Vitesse - 2")
-		print("Presentation Direction - 3")
-		print("Presentation Cercle - 4")
-		print("> ------")
-		print("Controle a Distance - ")
-		print("Test Direction - 6")
-
-		print("Test Algo - 7")
-		print("Char - 8")
+		clear()
+		print("> ",  ('-'*12), " Menu ", ('-'*12))
+		print(" Info General - 		 1")
+		print(" Presentation Vitesse - 	 2")
+		print(" Presentation Direction - 	 3")
+		print(" Presentation Cercle - 		 4")
+		print(" Longer mur - 			 5")
+		print(" Eviter obstacle - 		 6")
+		print(" Circuit - 			 7")
+		print(" Circuit n° tour - 		 8")
+		print(" Circuit n°? tour - 		 9")
+		print(" Circuit feux - 		10")
+		print("> ", ('-'*32))
+		print(" Test Vitesse - 		11")
+		print(" Test Direction - 		12")
+		print(" Test Char - 			13")
+		print(" Test Capteur Couleur - 	14")
+		print(" Test Controle Distance - 	15")
+		print("> ", ('-'*32))
+		print(" Exit - 			 0")
+		print("< ", ('-'*32))
 		
 		choix = int(input(">>> "))
-		
-		if(choix == 1):
+		if(choix == 0):
+			exit()
+		elif(choix == 1):
 			while True:
 				printInfo(car)
 				time.sleep(0.5)
 		elif(choix == 2):
 			showSpeed(car)
 		elif(choix == 3):
-			direction(car)
+			showDirection(car)
 		elif(choix == 4):
-			circule(car)
+			showCircle(car)
 		elif(choix == 5):
-			pass
+			suivimur(car)
 		elif(choix == 6):
-			while True:
-				car.turn(int(input("Valeur : ")))
-				time.sleep(0.5)
+			pass
 		elif(choix == 7):
-			testAlgo(car)
+			circuitTour(car)
 		elif(choix == 8):
+			pass
+		elif(choix == 9):
+			pass
+		elif(choix == 10):
+			pass
+		elif(choix == 11):
+			testSpeed(car)
+		elif(choix == 12):
+			testDirection(car)
+		elif(choix == 13):
 			car.turn(150)
-			char(car, left=True, time=0.5)
+			testChar(car, left=True, time=0.5)
 			car.turn(350)
-			char(car, right=True, time=0.5)
+			testChar(car, right=True, time=0.5)
+		elif(choix == 14):
+			testColor(car)
+		elif(choix == 15):
+			testControle(car)
+					
 	except Exception as e:
 		print(e)
-		input("Press <<ENTER>> for pass error")
+		input("Presse <<ENTER>> pour passer l'erreur")
 		menu(car)
-def circuitTour(car):
-	if(tuture.sF.getDistance()>35):
-		if(tuture.sR.getDistance()<25):
-			tuture.turn(180)
-		elif(tuture.sL.getDistance()<25):
-			tuture.turn(320)
-		else:
-			tuture.turn(250)
-	elif(tuture.sR.getDistance()>tuture.sL.getDistance()):
-		tuture.turn(400)
-		time.sleep(1)
-	else:
-		tuture.turn(150)
-		time.sleep(1)
-def suivimur(car):
-	if(car.sR.getDistance()<22):
-		car.turn(180)
-	elif(car.sR.getDistance()>23):
-		car.turn(320)
-	else:
-		car.turn(250)
-	
+
 if __name__ == "__main__":
 	try:
 		tuture = Car()
 		tuture.start()
-		tuture.move(30)
-		print("Combien de tours ? ")
-		nbtour=int(input())
-		tuture.sI.reset(nbtour)
-		while not tuture.sI.valueStop:
-			circuitTour(tuture)
+
+		while True:
+			menu(tuture)
+
 	except Exception as e:
 		print(e)
 	

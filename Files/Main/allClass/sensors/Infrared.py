@@ -45,6 +45,7 @@ class Infrared(Sensor):
 
 	def getValue(self):
 		return self.value
+
 	def reset(self,nbtour):
 		self.opposer=0
 		self.compteur=0
