@@ -5,6 +5,7 @@ __copyright__ = " Copyright 2023 , HEH - Project Voiture "
 
 import keyboard
 import os
+import random
 import time
 
 from allClass.tuture import Car
@@ -61,46 +62,65 @@ def suivimur(car):
 		else:
 			car.turn(250)
 
-def circuitTour(car):
-	tuture.move(30)
+def eviteObj(car):
 	while True:
-		if(tuture.sF.getDistance()>35):
-			if(tuture.sR.getDistance()<25):
-				tuture.turn(180)
-			elif(tuture.sL.getDistance()<25):
-				tuture.turn(340)
+		if(car.sF.getDistance()>35):
+			if(car.sR.getDistance()<25):
+				car.turn(180)
+				car.move(30)
+			elif(car.sL.getDistance()<25):
+				car.turn(340)
+				car.move(30)
 			else:
-				tuture.turn(250)
-		elif(tuture.sR.getDistance()>tuture.sL.getDistance()):
-			tuture.turn(400)
+				car.move(0)
+				car.turn(250)
+
+def circuitTour(car):
+	car.move(30)
+	while True:
+		if(car.sF.getDistance()>35):
+			if(car.sR.getDistance()<25):
+				car.turn(180)
+			elif(car.sL.getDistance()<25):
+				car.turn(340)
+			else:
+				car.turn(250)
+		elif(car.sR.getDistance()>car.sL.getDistance()):
+			car.turn(400)
 			time.sleep(1)
 		else:
-			tuture.turn(150)
+			car.turn(150)
 			time.sleep(1)
 
 def circuitNbrTour(car):
 	nbtour=int(input("Combien de tours ? "))
-	tuture.sI.reset(nbtour)
-	while not tuture.sI.valueStop:
-		circuitTour(tuture)
+	car.sI.reset(nbtour)
+	while not car.sI.valueStop:
+		circuitTour(car)
+
+def circuitNbrRandomTour(car):
+	nbtour = random.randint(1, 5)
+	car.sI.reset(nbtour)
+	while not car.sI.valueStop:
+		circuitTour(car)
 
 def circuitTourColor(car):
 	while not car.sC.getGO():
 		pass
 
 	while True:
-			if(tuture.sF.getDistance()>35):
-				if(tuture.sR.getDistance()<25):
-					tuture.turn(180)
-				elif(tuture.sL.getDistance()<25):
-					tuture.turn(340)
+			if(car.sF.getDistance()>35):
+				if(car.sR.getDistance()<25):
+					car.turn(180)
+				elif(car.sL.getDistance()<25):
+					car.turn(340)
 				else:
-					tuture.turn(250)
-			elif(tuture.sR.getDistance()>tuture.sL.getDistance()):
-				tuture.turn(400)
+					car.turn(250)
+			elif(car.sR.getDistance()>car.sL.getDistance()):
+				car.turn(400)
 				time.sleep(1)
 			else:
-				tuture.turn(150)
+				car.turn(150)
 				time.sleep(1)
 
 def testSpeed(car):
@@ -235,15 +255,15 @@ def menu(car):
 		elif(choix == 5):
 			suivimur(car)
 		elif(choix == 6):
-			pass
+			eviteObj(car)
 		elif(choix == 7):
 			circuitTour(car)
 		elif(choix == 8):
-			pass
+			circuitNbrTour(car)
 		elif(choix == 9):
-			pass
+			circuitNbrRandomTour(car)
 		elif(choix == 10):
-			pass
+			circuitTourColor(car)
 		elif(choix == 11):
 			testSpeed(car)
 		elif(choix == 12):

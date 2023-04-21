@@ -19,7 +19,7 @@ class PAPA:
 		self.pwm = PWM()
 		self.pwm.frequency = self.frequency
 
-		self.SHUNT_OHMS = 0.1
+		#self.SHUNT_OHMS = 0.1
 		#self.ina = INA219(self.SHUNT_OHMS)
 		#self.ina.configure()
 
