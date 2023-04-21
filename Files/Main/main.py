@@ -59,13 +59,28 @@ def showCircle(car):
 # Fait suivre le mur droit à la voiture
 def suivimur(car):
 	car.move(30)
+
 	while True:
-		if(car.sR.getDistance()<22):
-			car.turn(180)
-		elif(car.sR.getDistance()>23):
-			car.turn(320)
-		else:
-			car.turn(250)
+		if(car.sF.getDistance()<40):
+			break
+
+		srDistance=car.sR.getDistance()
+		slDistance=car.sL.getDistance()
+		if(slDistance<srDistance):
+			dist=slDistance*1.5
+			if(15< slDistance < 18):
+				car.turn(250)
+			elif(slDistance < 15):
+				car.turn(250+dist)
+			elif(slDistance > 18):
+				car.turn(250-dist)
+		if(srDistance<slDistance):
+			if(15< srDistance < 18):
+				car.turn(250)
+			elif(srDistance < 15):
+				car.turn(250+dist)
+			elif(srDistance > 18):
+				car.turn(250-dist)
 
 # Éviter l'obstacle devant la voiture
 def eviteObj(car):
@@ -310,6 +325,7 @@ if __name__ == "__main__":
 
 		while True:
 			menu(tuture)
+			
 
 	except Exception as e:
 		print(e)
