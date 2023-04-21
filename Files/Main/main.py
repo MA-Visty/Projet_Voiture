@@ -152,15 +152,15 @@ def menu(car):
 		input("Press <<ENTER>> for pass error")
 		menu(car)
 def circuitTour(car):
-	if(tuture.sF.getDistance()>35):
-		if(tuture.sR.getDistance()<25):
-			tuture.turn(180)
-		elif(tuture.sL.getDistance()<25):
-			tuture.turn(340)
+	if(car.sF.getDistance()>35):
+		if(car.sR.getDistance()<25):
+			car.turn(180)
+		elif(car.sL.getDistance()<25):
+			car.turn(340)
 		else:
-			tuture.turn(250)
-	elif(tuture.sR.getDistance()>tuture.sL.getDistance()):
-		tuture.turn(400)
+			car.turn(250)
+	elif(car.sR.getDistance()>car.sL.getDistance()):
+		car.turn(400)
 		time.sleep(1)
 	else:
 		tuture.turn(150)
