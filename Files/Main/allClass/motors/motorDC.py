@@ -10,11 +10,12 @@ import allClass.motors.PCA9685 as PCA
 
 class DC:
 	def __init__(self, _pinA, _pinB, _en):
+		# Initialise les variables des pins
 		self.pinA = _pinA
 		self.pinB = _pinB
 		self.en = _en
 		self.speed = 0
-		# Initialize the servo controller.
+		# Initialise le contrôleur du servo
 		self.pwm = PCA.PWM()
 		self.pwm.frequency = 60
 
@@ -30,11 +31,12 @@ class DC:
 		elif self.forwardB == 'False':
 			self.backwardB = 'True'
 		
-		# Set all pins' mode as output
+		# Configure les broches GPIO
 		GPIO.setup(self.pinA, GPIO.OUT)
 		GPIO.setup(self.pinB, GPIO.OUT)
 
 	def motor(self,x):
+		# Définit l'état des pins pour avancer ou reculer
 		if x == 'True':
 			GPIO.output(self.pinA, GPIO.LOW)
 			GPIO.output(self.pinB, GPIO.HIGH)
@@ -45,22 +47,28 @@ class DC:
 			raise Exception('Config Error')
 
 	def update(self):
+		# Met à jour la vitesse du moteur
 		self.pwm.write(self.en, 0, self.speed)
 
 	def setSpeed(self, speed):
+		# Définit la valeur de la variable de vitesse du moteur
 		speed *= 40
 		self.speed = speed
 		self.update()
 
 	def getSpeed(self):
+		# Retourne la valeur de la variable de vitesse du moteur
 		return self.speed
 	
 	def backward(self):
+		# Définit le moteur en marche arrière
 		self.motor(self.forwardB)
 
 	def forward(self):
+		# Définit le moteur en marche avant
 		self.motor(self.backwardB)
 
 	def stop(self):
+		# Arrête le moteur
 		GPIO.output(self.pinA, GPIO.LOW)
 		GPIO.output(self.pinB, GPIO.LOW)

@@ -14,31 +14,32 @@ from allClass.sensors.UltraSonic import UltraSonic
 
 class Car:
 	def __init__(self):
-		# Number GPIOs by its physical location
+		# Défini le mode des GPIO
 		GPIO.setmode(GPIO.BCM)
 		GPIO.setwarnings(False)
 
-		# Servomotor
+		# Initialise le servo-moteur
 		self.direction = PAPA()
-		# Motor Left
+		# Initialise le moteur gauche
 		self.mL = DC(24, 23, 5)
-		# Motor Right
+		# Initialise le moteur droit
 		self.mR = DC(27, 22, 4)
 
-		# Sensor "UltraSonic" Left
+		# Initialise le capteur d'ultrason gauche
 		self.sL = UltraSonic(11, 9)
-		# Sensor "UltraSonic" Front
+		# Initialise le capteur d'ultrason devant
 		self.sF = UltraSonic(6, 5)
-		# Sensor "UltraSonic" Right
+		# Initialise le capteur d'ultrason droit
 		self.sR = UltraSonic(26, 19)
 
-		# Sensor "Infrared"
+		# Initialise le capteur d'infrarouge
 		self.sI = Infrared(20)
 		
-		# Sensor "Color"
+		# Initialise le capteur de couleur
 		self.sC = Color()
 	
 	def move(self, speed):
+		# Fait tourner les moteurs (vers l'avant si "speed" est positif vers l'arrière si négatif)
 		if(100 >= speed >= 10):
 			self.mL.forward()
 			self.mL.setSpeed(speed)
@@ -54,28 +55,34 @@ class Car:
 			self.mR.setSpeed(0)
 
 	def turn(self, deg):
+		# Fait tourner les roues
 		if(self.direction.minPulse <= deg <= self.direction.maxPulse):
 			self.direction.setPosition(deg)
 	
 	def start(self):
+		# Lance tous le thread de chaque capteur
 		self.sL.start()
 		self.sF.start()
 		self.sR.start()
 		self.sI.start()
 		self.sC.start()
-
 		self.direction.start()
+		# Réinitialise l'angle des roues et la vitesse des moteurs
 		self.direction.reset()
 		self.move(0)
 	
 	def stop(self):
+		# Arrête les moteurs
 		self.mL.stop()
 		self.mR.stop()
+		# Mets les roues droites
 		self.direction.stop()
 		self.direction.reset()
+		# Arrête le thread de chaque capteur
 		self.sL.stop()
 		self.sF.stop()
 		self.sR.stop()
 		self.sI.stop()
 		self.sC.stop()
+		# Nettoye l'état des GPIO
 		GPIO.cleanup()

@@ -11,38 +11,43 @@ from allClass.sensors.Sensors import Sensor
 class UltraSonic(Sensor):
 	def __init__(self, _pinTrig, _pinEcho):
 		super().__init__()
+		# Initialise les variables de la classe
 		self.pinTrig = _pinTrig
 		self.pinEcho = _pinEcho
 		self.distance = 0
 		self.distances = []
 
-		# Set up the GPIO pins
+		# Configure les broches GPIO
 		GPIO.setup(self.pinTrig, GPIO.OUT)
 		GPIO.setup(self.pinEcho, GPIO.IN)
 
 	def run(self):
+		# Fonction lancer avec le thread
 		GPIO.output(self.pinTrig, GPIO.LOW)
 
 		while not self.isKilled:
-			# Send signal
+			# Envoie un signal
 			GPIO.output(self.pinTrig, GPIO.HIGH)
 			time.sleep(0.00001)
 			GPIO.output(self.pinTrig, GPIO.LOW)
 
-			# Get signal return 
+			# Regarde quand le signal revient
 			pulse_start_time = 0
 			while(GPIO.input(self.pinEcho)==0):
 				pulse_start_time = time.time()
 			while(GPIO.input(self.pinEcho)==1):
 				pulse_end_time = time.time()
 
-			# Calculate distance
+			# Calcule la distance en fonction du temps mis par le signal
 			pulse_duration = pulse_end_time - pulse_start_time
 			self.setDistance(round(pulse_duration * 17150, 2))
 
+		# Message lors de la fin du thread ( programme )
 		print(self, " is killed")
 
 	def setDistance(self, _distance):
+		# Définit la valeur de la distance
+		# Calcule la moyenne pour avoir des valeurs fiables
 		if(2 <= _distance <= 400):
 			if(len(self.distances) == 0):
 				self.distance = _distance
@@ -58,9 +63,10 @@ class UltraSonic(Sensor):
 				
 				self.distances.append(_distance)
 
+				# Si la liste des valeurs est plus grande que 5, retire le premier élément
 				if(len(self.distances) > 5):
 					self.distances.pop(0)
-		
 	
 	def getDistance(self):
+		# Retourne la valeur de la distance
 		return self.distance

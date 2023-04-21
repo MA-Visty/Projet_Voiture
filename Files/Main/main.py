@@ -99,7 +99,7 @@ def eviteObj(car):
 # Fait faire le circuit à la voiture
 def circuitTour(car):
 	car.move(30)
-	while True:
+	while not car.sI.valueStop:
 		if(car.sF.getDistance()>35):
 			if(car.sR.getDistance()<25):
 				car.turn(180)
@@ -117,36 +117,21 @@ def circuitTour(car):
 # Fait faire un certain nombre de tour(s) à la voiture
 def circuitNbrTour(car):
 	nbtour=int(input("Combien de tours ? "))
-	car.sI.reset(nbtour)
-	while not car.sI.valueStop:
-		circuitTour(car)
+	car.sI.reset(nbtour+1)
+	circuitTour(car)
 
 # Fait faire un nombre aléatoire de tour à la voiture
 def circuitNbrRandomTour(car):
 	nbtour = random.randint(1, 5)
-	car.sI.reset(nbtour)
-	while not car.sI.valueStop:
-		circuitTour(car)
+	car.sI.reset(nbtour+1)
+	circuitTour(car)
 
 # Fait faire le circuit à la voiture quand le feu passe au vert
 def circuitTourColor(car):
 	while not car.sC.getGO():
 		pass
-
-	while True:
-			if(car.sF.getDistance()>35):
-				if(car.sR.getDistance()<25):
-					car.turn(180)
-				elif(car.sL.getDistance()<25):
-					car.turn(340)
-				else:
-					car.turn(250)
-			elif(car.sR.getDistance()>car.sL.getDistance()):
-				car.turn(400)
-				time.sleep(1)
-			else:
-				car.turn(150)
-				time.sleep(1)
+	
+	circuitTour(car)
 
 # Permets de tester différentes vitesses aux moteurs
 def testSpeed(car):
@@ -291,6 +276,7 @@ def menu(car):
 		elif(choix == 6):
 			eviteObj(car)
 		elif(choix == 7):
+			car.sI.reset(2)
 			circuitTour(car)
 		elif(choix == 8):
 			circuitNbrTour(car)
@@ -325,7 +311,6 @@ if __name__ == "__main__":
 
 		while True:
 			menu(tuture)
-			
 
 	except Exception as e:
 		print(e)
