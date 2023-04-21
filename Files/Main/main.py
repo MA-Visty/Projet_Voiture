@@ -156,9 +156,9 @@ def circuitTour(car):
 		if(tuture.sR.getDistance()<25):
 			tuture.turn(180)
 		elif(tuture.sL.getDistance()<25):
-			tuture.turn(340)
+			tuture.turn(350)
 		else:
-			tuture.turn(250)
+			tuture.turn(300)
 	elif(tuture.sR.getDistance()>tuture.sL.getDistance()):
 		tuture.turn(400)
 		time.sleep(1)
@@ -169,15 +169,19 @@ def suivimur(car):
 	if(car.sR.getDistance()<22):
 		car.turn(180)
 	elif(car.sR.getDistance()>23):
-		car.turn(320)
+		car.turn(350)
 	else:
-		car.turn(250)
+		car.turn(300)
+	
 if __name__ == "__main__":
 	try:
 		tuture = Car()
 		tuture.start()
 		tuture.move(30)
-		while True:
+		print("Combien de tours ? ")
+		nbtour=int(input())
+		tuture.sI.reset(nbtour)
+		while not tuture.sI.valueStop:
 			circuitTour(tuture)
 	except Exception as e:
 		print(e)
