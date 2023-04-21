@@ -10,6 +10,7 @@ import time
 
 from allClass.tuture import Car
 
+# Fait avancer la voiture avec différentes vitesses
 def showSpeed(car):
 	car.turn(car.direction.midPulse)
 	time.sleep(1)
@@ -24,6 +25,7 @@ def showSpeed(car):
 	
 	car.move(0)
 
+# Fait tourner les roues des deux côtés
 def showDirection(car):
 	car.turn(car.direction.maxPulse)
 	time.sleep(0.5)
@@ -34,6 +36,7 @@ def showDirection(car):
 	car.turn(car.direction.midPulse)
 	time.sleep(0.5)
 
+# Fait faire un cercle avec la voiture puis le reproduit dans l'autre sens
 def showCircle(car):
 	speed = 60
 	mtime = 5
@@ -53,7 +56,9 @@ def showCircle(car):
 	car.move(0)
 	time.sleep(0.5)
 
+# Fait suivre le mur droit à la voiture
 def suivimur(car):
+	car.move(30)
 	while True:
 		if(car.sR.getDistance()<22):
 			car.turn(180)
@@ -62,6 +67,7 @@ def suivimur(car):
 		else:
 			car.turn(250)
 
+# Éviter l'obstacle devant la voiture
 def eviteObj(car):
 	while True:
 		if(car.sF.getDistance()>35):
@@ -75,6 +81,7 @@ def eviteObj(car):
 				car.move(0)
 				car.turn(250)
 
+# Fait faire le circuit à la voiture
 def circuitTour(car):
 	car.move(30)
 	while True:
@@ -92,18 +99,21 @@ def circuitTour(car):
 			car.turn(150)
 			time.sleep(1)
 
+# Fait faire un certain nombre de tour(s) à la voiture
 def circuitNbrTour(car):
 	nbtour=int(input("Combien de tours ? "))
 	car.sI.reset(nbtour)
 	while not car.sI.valueStop:
 		circuitTour(car)
 
+# Fait faire un nombre aléatoire de tour à la voiture
 def circuitNbrRandomTour(car):
 	nbtour = random.randint(1, 5)
 	car.sI.reset(nbtour)
 	while not car.sI.valueStop:
 		circuitTour(car)
 
+# Fait faire le circuit à la voiture quand le feu passe au vert
 def circuitTourColor(car):
 	while not car.sC.getGO():
 		pass
@@ -123,6 +133,7 @@ def circuitTourColor(car):
 				car.turn(150)
 				time.sleep(1)
 
+# Permets de tester différentes vitesses aux moteurs
 def testSpeed(car):
 	while True:
 		clear()
@@ -130,6 +141,7 @@ def testSpeed(car):
 		print("Vitesse moteur droit actuelle : ", car.mR.getSpeed())
 		car.move(int(input("Valeur : ")))
 
+# Permets de tester différents angle au servo-moteur ( roues )
 def testDirection(car):
 	while True:
 		clear()
@@ -137,6 +149,7 @@ def testDirection(car):
 		print("Position actuelle : ", car.direction.getPosition())
 		car.turn(int(input("Valeur : ")))
 
+# Permets de faire tourner sur elle-même (faire Burn) la voiture
 def testChar(car, left=False, right=False, time=0.0):
 	if(left):
 		car.mL.backward()
@@ -154,6 +167,7 @@ def testChar(car, left=False, right=False, time=0.0):
 		time.sleep(time)
 		car.move(0)
 
+# Donne les informations de la voiture + les informations du capteur de couleur
 def testColor(car):
 	while True:
 		printInfo(car)
@@ -164,6 +178,7 @@ def testColor(car):
 		if(car.sC.getGO()):
 			car.move(30)
 			
+# Permets de contrôler la voiture à distance (un peu compliquer)
 def testControle(car):
 	speed = 0
 	while True:
@@ -194,9 +209,11 @@ def testControle(car):
 			else:
 				car.turn(150)
 
+# Efface la console
 def clear():
 	os.system("clear")
 
+# Affiche les informations des différents capteurs (Ultrason, Infrarouge, Couleur, Vitesse des moteurs, Position des servo-moteurs)
 def printInfo(car):
 	clear()
 	print(car.sL.getDistance(), "cm | ", car.sF.getDistance(), "cm | ", car.sR.getDistance(), "cm")
@@ -209,12 +226,14 @@ def printInfo(car):
 	print("Position servomoteur:", car.direction.getPosition())
 	printINA(car)
 
+# Affiche les informations du limiteur de courant
 def printINA(car):
 	print("Bus Voltage: %.3f V" % car.direction.ina.getVoltage())
 	print("Bus Current: %.3f mA" % car.direction.ina.getCurrent())
 	print("Power: %.3f mW" % car.direction.ina.getPower())
 	print("Shunt voltage: %.3f mV" % car.direction.ina.getShuntVoltage())
 
+# Affiche un menu
 def menu(car):
 	try:
 		clear()
@@ -285,6 +304,7 @@ def menu(car):
 
 if __name__ == "__main__":
 	try:
+		# Initialise une voiture
 		tuture = Car()
 		tuture.start()
 
@@ -295,4 +315,5 @@ if __name__ == "__main__":
 		print(e)
 	
 	finally:
+		# Stop les différents composants de la voiture
 		tuture.stop()
