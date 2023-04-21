@@ -202,12 +202,12 @@ def testControle(car):
 			if(car.direction.getPosition() > 250):
 				car.turn(245)
 			else:
-				car.turn(400)
+				car.turn(150)
 		elif(nbr == "d"):
 			if(car.direction.getPosition() < 250):
 				car.turn(255)
 			else:
-				car.turn(150)
+				car.turn(400)
 
 # Efface la console
 def clear():
