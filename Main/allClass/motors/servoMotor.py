@@ -11,7 +11,7 @@ class PAPA:
 		# Initialise les variables de la classe
 		self.minPulse = 150
 		self.midPulse = 300
-		self.maxPulse = 400
+		self.maxPulse = 450
 		self.position = self.midPulse
 		self.frequency = 50
 

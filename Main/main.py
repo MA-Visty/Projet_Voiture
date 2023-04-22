@@ -9,6 +9,7 @@ import random
 import time
 
 from allClass.tuture import Car
+from manette import PS4Controller
 
 # Fait avancer la voiture avec différentes vitesses
 def showSpeed(car):
@@ -63,7 +64,7 @@ def suivimur(car):
 		if(car.sR.getDistance()<22):
 			car.turn(180)
 		elif(car.sR.getDistance()>23):
-			car.turn(320)
+			car.turn(350)
 		else:
 			car.turn(250)
 
@@ -194,6 +195,46 @@ def testControle(car):
 			else:
 				car.turn(400)
 
+def testControleManette(car):
+	ps4 = PS4Controller()
+	ps4.init()
+	try:
+		"""
+		{	0: False, A
+			1: False, B
+			2: False,
+			3: False, X
+			4: False, Y
+			5: False,
+			6: False, LU
+			7: False, RU
+			8: False,
+			9: False,
+			10: False,
+			11: False,
+			12: False,
+			13: False, START
+			14: False,
+			15: False, SELECT
+			16: False	}
+
+		{	0: 0.07, JG
+			1: 0.08, JG
+			2: 0.02, JD
+			3: 0.06, JD
+			4: -1.0, RB
+			5: -1.0  LB	}
+
+		{	0: (0, 0) Direction	}
+		"""
+		ps4.start()
+		while True:
+			car.move(0 - int(100 * ps4.axis_data[1]))
+			car.turn(300 + int(150 * ps4.axis_data[0]))
+
+	finally:
+		ps4.stop()
+
 # Efface la console
 def clear():
 	os.system("clear")
@@ -239,6 +280,7 @@ def menu(car):
 		print(" Test Char - 			13")
 		print(" Test Capteur Couleur - 	14")
 		print(" Test Controle Distance - 	15")
+		print(" Test Controle Manette - 	16")
 		print("> ", ('-'*32))
 		print(" Exit - 			 0")
 		print("< ", ('-'*32))
@@ -282,6 +324,8 @@ def menu(car):
 			testColor(car)
 		elif(choix == 15):
 			testControle(car)
+		elif(choix == 16):
+			testControleManette(car)
 					
 	except Exception as e:
 		print(e)
@@ -289,11 +333,10 @@ def menu(car):
 		menu(car)
 
 if __name__ == "__main__":
+	# Initialise une voiture
+	tuture = Car()
 	try:
-		# Initialise une voiture
-		tuture = Car()
 		tuture.start()
-
 		while True:
 			menu(tuture)
 
