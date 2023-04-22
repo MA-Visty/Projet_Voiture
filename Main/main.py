@@ -70,31 +70,34 @@ def suivimur(car):
 
 # Éviter l'obstacle devant la voiture
 def eviteObj(car):
+	car.move(30)
 	while True:
-		if(car.sF.getDistance()>35):
-			if(car.sR.getDistance()<25):
-				car.turn(180)
-				car.move(30)
-			elif(car.sL.getDistance()<25):
-				car.turn(340)
-				car.move(30)
-			else:
-				car.move(0)
-				car.turn(250)
+			if(car.sF.getDistance()<30):
+					car.turn(375)
+					time.sleep(1.5)
+					car.turn(250)
+					time.sleep(1.5)
+					car.turn(300)
+					time.sleep(1)
+					car.turn(250)
+					time.sleep(1.5)
+					car.turn(400)
+					time.sleep(1.5)
+					car.turn(300)
 
 # Fait faire le circuit à la voiture
 def circuitTour(car):
-	car.move(30)
+	car.move(35)
 	while not car.sI.valueStop:
-		if(car.sF.getDistance()>35):
-			if(car.sR.getDistance()<25):
-				car.turn(180)
-			elif(car.sL.getDistance()<25):
-				car.turn(340)
+		if(car.sF.getDistance() > 35):
+			if(car.sR.getDistance() < 30):
+				car.turn(230)
+			elif(car.sL.getDistance() < 30):
+				car.turn(390)
 			else:
-				car.turn(250)
+				car.turn(300)
 		elif(car.sR.getDistance()>car.sL.getDistance()):
-			car.turn(400)
+			car.turn(450)
 			time.sleep(1)
 		else:
 			car.turn(150)
@@ -228,9 +231,12 @@ def testControleManette(car):
 		{	0: (0, 0) Direction	}
 		"""
 		ps4.start()
-		while True:
+		car.sI.reset(2)
+		while not car.sI.valueStop:
 			car.move(0 - int(100 * ps4.axis_data[1]))
 			car.turn(300 + int(150 * ps4.axis_data[0]))
+
+		input("fin")
 
 	finally:
 		ps4.stop()
@@ -243,7 +249,8 @@ def clear():
 def printInfo(car):
 	clear()
 	print(car.sL.getDistance(), "cm | ", car.sF.getDistance(), "cm | ", car.sR.getDistance(), "cm")
-	print("Valeur Infrarouge:", car.sI.getValue())
+	print("Valeur Infrarouge: ", car.sI.getValue())
+	print("O: " , car.sI.opposer, " | C: ", car.sI.compteur, " | Vs: ", car.sI.valueStop)
 	print('Valeur Couleur: ', car.sC.getColor())
 	print('Valeur Temperature:', car.sC.getTemp(), 'K')
 	print('Valeur Lux:', car.sC.getLux())

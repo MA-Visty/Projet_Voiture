@@ -9,7 +9,7 @@ import time
 from allClass.sensors.Sensors import Sensor
 
 class Infrared(Sensor):
-	def __init__(self, _pin,_nbtour=3):
+	def __init__(self, _pin, _nbtour=3):
 		super().__init__()
 		# Initialise les variables de la classe
 		self.pin = _pin
@@ -19,6 +19,7 @@ class Infrared(Sensor):
 		self.valueStop = False
 		self.temps = 0
 		self.nbtour = _nbtour
+		
 		# Configure les broches GPIO
 		GPIO.setup(self.pin, GPIO.IN)
 	
@@ -34,17 +35,17 @@ class Infrared(Sensor):
 
 	def check(self):
 		# Vérifie le temps pour être sur d'avoir passer la ligne
-		if(self.getValue()==self.opposer):
-			if(self.getValue()==1):
-				self.opposer=0
-				self.temps=time.time()
+		if(self.getValue() == self.opposer):
+			if(self.getValue() == 1):
+				self.opposer = 0
+				self.temps = time.time()
 			else:
-				self.opposer=1
-				tempsFin=time.time()
-				if(tempsFin-self.temps>=1):
-					self.compteur+=1
-					if(self.compteur==self.nbtour):
-						self.valueStop=True
+				self.opposer = 1
+				tempsFin = time.time()
+				if(tempsFin - self.temps >= 0.25):
+					self.compteur += 1
+					if(self.compteur == self.nbtour):
+						self.valueStop = True
 
 	def setValue(self, _val):
 		# Définit la valeur
