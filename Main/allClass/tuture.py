@@ -76,12 +76,13 @@ class Car:
 		self.mL.stop()
 		self.mR.stop()
 		# Mets les roues droites
-		self.direction.stop()
 		self.direction.reset()
+		self.direction.stop()
 		# Arrête le thread de chaque capteur
 		self.sL.stop()
 		self.sF.stop()
 		self.sR.stop()
+		
 		self.sI.stop()
 		self.sC.stop()
 		# Nettoye l'état des GPIO

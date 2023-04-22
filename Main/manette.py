@@ -73,12 +73,3 @@ class PS4Controller(Thread):
 		self.isKilled = True
 		self.join()
 		pygame.quit()
-
-if __name__ == "__main__":
-	ps4 = PS4Controller()
-	try:
-		ps4.init()
-		ps4.start()
-		ps4.run()
-	finally:
-		ps4.stop()

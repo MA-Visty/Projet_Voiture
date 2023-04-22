@@ -331,18 +331,18 @@ def menu(car):
 		print(e)
 		input("Presse <<ENTER>> pour passer l'erreur")
 		menu(car)
+	
+	finally:
+		# Stop les différents composants de la voiture
+		car.stop()
 
 if __name__ == "__main__":
-	# Initialise une voiture
-	tuture = Car()
 	try:
+		# Initialise une voiture
+		tuture = Car()
 		tuture.start()
 		while True:
 			menu(tuture)
 
 	except Exception as e:
 		print(e)
-	
-	finally:
-		# Stop les différents composants de la voiture
-		tuture.stop()
