@@ -52,16 +52,10 @@ class Color(Sensor):
 			self.valColor = _valC
 			self.colors.append(_valC)
 		else:
-			moyenneR = 0
 			moyenneG = 0
-			moyenneB = 0
 			for nbr in self.colors:
-				moyenneR += nbr[0]
 				moyenneG += nbr[1]
-				moyenneB += nbr[2]
-			moyenneR = moyenneR / len(self.colors)
 			moyenneG = moyenneG / len(self.colors)
-			moyenneB = moyenneB / len(self.colors)
 
 			if((moyenneG - (moyenneG * 0.1)) < _valC[1] < (moyenneG + (moyenneG * 0.1))):
 				if(_valC[1] > _valC[0] and _valC[1] > _valC[2]):

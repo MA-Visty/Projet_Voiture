@@ -86,22 +86,43 @@ def eviteObj(car):
 					car.turn(300)
 
 # Fait faire le circuit à la voiture
-def circuitTour(car):
+def circuitTourV1(car):
 	car.move(35)
 	while not car.sI.valueStop:
 		if(car.sF.getDistance() > 35):
 			if(car.sR.getDistance() < 30):
 				car.turn(230)
 			elif(car.sL.getDistance() < 30):
-				car.turn(390)
+				car.turn(370)
 			else:
 				car.turn(300)
-		elif(car.sR.getDistance()>car.sL.getDistance()):
+		elif(car.sR.getDistance() > car.sL.getDistance()):
 			car.turn(450)
-			time.sleep(1)
+			time.sleep(0.5)
 		else:
 			car.turn(150)
-			time.sleep(1)
+			time.sleep(0.5)
+
+# Fait faire le circuit à la voiture
+def circuitTour(car):
+	while not car.sI.valueStop:
+		if(car.sF.getDistance() > 35):
+			car.move(40)
+			if(car.sR.getDistance() < 30):
+				car.turn(225)
+			elif(car.sL.getDistance() < 30):
+				car.turn(375)
+			else:
+				car.turn(300)
+		elif(car.sF.getDistance() > 5):
+			car.move(25)
+			if(car.sR.getDistance() > car.sL.getDistance()):
+				car.turn(450)
+			else:
+				car.turn(150)
+		else:
+			car.move(-45)
+			car.turn(300)
 
 # Fait faire un certain nombre de tour(s) à la voiture
 def circuitNbrTour(car):
@@ -119,7 +140,7 @@ def circuitNbrRandomTour(car):
 def circuitTourColor(car):
 	while not car.sC.getGO():
 		pass
-	
+
 	circuitTour(car)
 
 # Permets de tester différentes vitesses aux moteurs
@@ -231,12 +252,15 @@ def testControleManette(car):
 		{	0: (0, 0) Direction	}
 		"""
 		ps4.start()
-		car.sI.reset(2)
+		car.sI.reset(3+1)
 		while not car.sI.valueStop:
-			car.move(0 - int(100 * ps4.axis_data[1]))
+			if(ps4.axis_data[4] == -1):
+				car.move(0 - int(100 * (ps4.axis_data[5] + 1) / 2))
+			elif(ps4.axis_data[5] == -1):
+				car.move(0 + int(100 * (ps4.axis_data[4] + 1) / 2))
+			else:
+				car.move(0)
 			car.turn(300 + int(150 * ps4.axis_data[0]))
-
-		input("fin")
 
 	finally:
 		ps4.stop()
