@@ -22,7 +22,6 @@ class Color(Sensor):
 		self.valColor = 0
 		self.valTemp = 0
 		self.valLux = 0
-		self.tTime = None
 		self.valStart = False
 
 	def run(self):

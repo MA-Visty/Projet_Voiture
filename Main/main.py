@@ -86,7 +86,7 @@ def eviteObj(car):
 					car.turn(300)
 
 # Fait faire le circuit à la voiture
-def circuitTourV1(car):
+def circuitTour(car):
 	car.move(35)
 	while not car.sI.valueStop:
 		if(car.sF.getDistance() > 35):
@@ -102,27 +102,6 @@ def circuitTourV1(car):
 		else:
 			car.turn(150)
 			time.sleep(0.5)
-
-# Fait faire le circuit à la voiture
-def circuitTour(car):
-	while not car.sI.valueStop:
-		if(car.sF.getDistance() > 35):
-			car.move(40)
-			if(car.sR.getDistance() < 30):
-				car.turn(225)
-			elif(car.sL.getDistance() < 30):
-				car.turn(375)
-			else:
-				car.turn(300)
-		elif(car.sF.getDistance() > 5):
-			car.move(25)
-			if(car.sR.getDistance() > car.sL.getDistance()):
-				car.turn(450)
-			else:
-				car.turn(150)
-		else:
-			car.move(-45)
-			car.turn(300)
 
 # Fait faire un certain nombre de tour(s) à la voiture
 def circuitNbrTour(car):
